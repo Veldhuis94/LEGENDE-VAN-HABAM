@@ -1,3 +1,9 @@
+#Made by Audi van Gog
+
+#Version 1.1.1
+#-Fixed bug: buttons that were initialised while the user was holding the mouse button fired their onclick events immediately. 
+#This has been fixed by setting the start value of self.clicked to True
+
 #Version 1.1.0
 #-Added text color variables for different events (txtColorHover and txtColorPressed)
 #-Event based colors will use the default color (ex: bgColorHover -> bgColor) if they are 'None' during initialisation
@@ -29,6 +35,7 @@ class Button:
     
     enabled = True #Onclick event will be fired and color will change based on input (hover, click)
     
+    
     #Constructor of the Button, use this to initialise the button. Example usage: myButton = Button(100, 100, w = 100, h = 50, txt='click here')
     def __init__(self, x, y, **args):
         #----------------------
@@ -43,7 +50,7 @@ class Button:
         self.y = y
         
         self.onClick = Button.onClickDefault 
-        self.clicked = False 
+        self.clicked = True 
         self.clickCount = 0 #Amount of times the user has clicked on the button
         
         #Extra arguments
@@ -104,7 +111,8 @@ class Button:
         if(self.enabled and mouseIsOnButton):
             self.bgColorCurrent = self.bgColorHover
             self.txtColorCurrent = self.txtColorHover
-            if(mousePressed and not self.clicked): #The user must release the mouse button before he/she can press on it again
+            
+            if(mousePressed and self.clicked == False): #The user must release the mouse button before he/she can press on it again
                 self.clicked = True
                 self.bgColorCurrent = self.bgColorPressed
                 self.txtColorCurrent = self.txtColorPressed
