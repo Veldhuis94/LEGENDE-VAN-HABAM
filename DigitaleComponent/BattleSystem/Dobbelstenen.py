@@ -14,3 +14,5 @@ def draw(x, y, aantalOgen):
     photo=face[aantalOgen-1]
     
     image(photo,x,y)
+
+#welk een comment
