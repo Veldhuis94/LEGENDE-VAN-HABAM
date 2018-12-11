@@ -7,6 +7,7 @@ sys.path.append('..') #Go one folder up to access the Utilities folder
 from Utilities.Button import Button
 from Utilities.Text import Text
 from Utilities.Page import Page
+import Dobbelstenen
 
 class BattleSystem:
     #Constant values
@@ -42,10 +43,8 @@ class BattleSystem:
         playerPP = self.getPlayerPowerpoints(self.player)
         enemyPP = self.getEnemyPowerpoints(self.enemy)
         
-        #tijdelijk (todo: vervang dit met de code van Hakan)
-        playerEyes = random.randint(1, 6)
-        enemyEyes = random.randint(1, 6)
-        #--------
+        playerEyes = Dobbelstenen.randomizer()
+        enemyEyes = Dobbelstenen.randomizer()
         
         playerTotal = playerPP + playerEyes
         enemyTotal = enemyPP + enemyEyes
@@ -64,8 +63,15 @@ class BattleSystem:
         self.headers[self.PHASE_RESULT].txt = resultText
         print("player pp:", playerPP, "enemy pp:", enemyPP, "playerEyes:", playerEyes, "enemyEyes:", enemyEyes, "playerTotal:", playerTotal, "enemyTotal:", enemyTotal)
         
+        self.playerEyes = playerEyes
+        self.enemyEyes = enemyEyes
+        tiers = ["Low tier vijand", "Mid tier vijand", "High tier vijand", "Eindbaas"]
+        self.playerText.txt = "Player " + str(self.player+1) + " (" + str(playerPP) + ")"
+        self.enemyText.txt = tiers[self.enemy] + " (" + str(enemyPP) + ")"
+                                                    
     #BattleSystem constructor
     def __init__(self):
+        
         #----BUTTON EVENTS-----
         def onPlayerClick(button):
             self.phase = self.PHASE_CHOOSE_ENEMY
@@ -86,9 +92,9 @@ class BattleSystem:
         
         self.phase = self.PHASE_CHOOSE_PLAYER
         self.headers = [ #Create labels to display a header on each page
-            Text("Je bent..."       , 500, 250, 1000, 96, txtSize=48, txtColor = (255, 255, 255)),
-            Text("Je vecht tegen...", 500, 250, 1000, 96, txtSize=48, txtColor = (255, 255, 255)),
-            Text("RESULTAAT"        , 500, 250, 1000, 96, txtSize=48, txtColor = (255, 255, 255))
+            Text("Je bent..."       , 500, 200, 1000, 96, txtSize=48, txtColor = (255, 255, 255)),
+            Text("Je vecht tegen...", 500, 200, 1000, 96, txtSize=48, txtColor = (255, 255, 255)),
+            Text("RESULTAAT"        , 500, 200, 1000, 96, txtSize=48, txtColor = (255, 255, 255))
         ]
         
         #Add the headers to the pages to update and display them
@@ -116,6 +122,11 @@ class BattleSystem:
         #Add those buttons to the result page
         self.pages[self.PHASE_RESULT].add(resetButton)
         self.pages[self.PHASE_RESULT].add(backButton)
+        
+        self.playerText = Text("Speler", 300, 270, 200, 32, txtSize=16, txtColor = (255,255,255))
+        self.enemyText = Text("Vijand", 700, 270, 200, 32, txtSize=16, txtColor = (255,255,255))
+        self.pages[self.PHASE_RESULT].add(self.playerText)
+        self.pages[self.PHASE_RESULT].add(self.enemyText)
     
     #Call this every frame
     def update(self):
@@ -123,3 +134,7 @@ class BattleSystem:
     #Call this every frame
     def draw(self):
         self.pages[self.phase].draw()
+        
+        if(self.phase == self.PHASE_RESULT):
+            Dobbelstenen.draw(250, 300, self.playerEyes)
+            Dobbelstenen.draw(650, 300, self.enemyEyes)
