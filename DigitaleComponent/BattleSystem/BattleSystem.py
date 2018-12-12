@@ -7,7 +7,7 @@ sys.path.append('..') #Go one folder up to access the Utilities folder
 from Utilities.Button import Button
 from Utilities.Text import Text
 from Utilities.Page import Page
-import Dobbelstenen
+#import Dobbelstenen
 
 class BattleSystem:
     #Constant values
@@ -20,6 +20,8 @@ class BattleSystem:
     enemy = 0 #Enemy tier index 0-3 (low tier, mid tier, high tier, final boss)
     
     pages = [Page(), Page(), Page(), Page()]
+    
+    diceFaces = None
     
     def getPlayerCount(self):
         return 4
@@ -37,14 +39,14 @@ class BattleSystem:
         eindbaas = (self.getPlayerCount() - 1) * 6 #2 spelers: 6, 3: 12, 4: 18
         ppList = [1, 2, 4, eindbaas]
         return ppList[i]
-    
+        
     #Start the fight between the chosen player and the enemy
     def fight(self):
         playerPP = self.getPlayerPowerpoints(self.player)
         enemyPP = self.getEnemyPowerpoints(self.enemy)
         
-        playerEyes = Dobbelstenen.randomizer()
-        enemyEyes = Dobbelstenen.randomizer()
+        playerEyes = self.randomizer()
+        enemyEyes = self.randomizer()
         
         playerTotal = playerPP + playerEyes
         enemyTotal = enemyPP + enemyEyes
@@ -128,6 +130,16 @@ class BattleSystem:
         self.pages[self.PHASE_RESULT].add(self.playerText)
         self.pages[self.PHASE_RESULT].add(self.enemyText)
     
+    #Code van hakan
+    def randomizer(self):
+        x=random.randint(1,6)
+        return x
+    def drawDice(self, x, y, aantalOgen):
+        photo=self.diceFaces[aantalOgen-1]
+        
+        image(photo,x,y)
+    #-----------------
+    
     #Call this every frame
     def update(self):
         self.pages[self.phase].update()
@@ -136,5 +148,5 @@ class BattleSystem:
         self.pages[self.phase].draw()
         
         if(self.phase == self.PHASE_RESULT):
-            Dobbelstenen.draw(250, 300, self.playerEyes)
-            Dobbelstenen.draw(650, 300, self.enemyEyes)
+            self.drawDice(250, 300, self.playerEyes)
+            self.drawDice(650, 300, self.enemyEyes)
