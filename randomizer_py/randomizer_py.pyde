@@ -1,3 +1,5 @@
+#gemaakt door Bastiaan
+
 import random
 
 leftAction = []
