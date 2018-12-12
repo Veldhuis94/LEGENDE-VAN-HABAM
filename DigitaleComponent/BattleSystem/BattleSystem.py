@@ -1,5 +1,5 @@
 #Made by Audi van Gog
-
+#comment
 import random
 
 import sys
