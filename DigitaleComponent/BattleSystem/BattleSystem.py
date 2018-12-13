@@ -19,10 +19,10 @@ class BattleSystem:
     player = 0 #Player index 0-3 (player 1 - 4)
     enemy = 0 #Enemy tier index 0-3 (low tier, mid tier, high tier, final boss)
     
-    pages = [Page(), Page(), Page(), Page()]
-    
     diceFaces = None
-    
+
+    tiers = ["Low tier vijand", "Mid tier vijand", "High tier vijand", "Eindbaas"]
+
     def getPlayerCount(self):
         return 4
     
@@ -54,26 +54,23 @@ class BattleSystem:
         resultText = ""
         
         if(playerTotal > enemyTotal):
-            print("You win!")
             resultText = "Je hebt gewonnen!"
         elif(playerTotal < enemyTotal):
-            print("You lose!")
             resultText = "Je hebt verloren!"
         else:
-            print("Tie!")
             resultText = "Gelijkspel!"
         self.headers[self.PHASE_RESULT].txt = resultText
-        print("player pp:", playerPP, "enemy pp:", enemyPP, "playerEyes:", playerEyes, "enemyEyes:", enemyEyes, "playerTotal:", playerTotal, "enemyTotal:", enemyTotal)
         
         self.playerEyes = playerEyes
         self.enemyEyes = enemyEyes
-        tiers = ["Low tier vijand", "Mid tier vijand", "High tier vijand", "Eindbaas"]
+        
         self.playerText.txt = "Player " + str(self.player+1) + " (" + str(playerPP) + ")"
-        self.enemyText.txt = tiers[self.enemy] + " (" + str(enemyPP) + ")"
+        self.enemyText.txt = self.tiers[self.enemy] + " (" + str(enemyPP) + ")"
                                                     
     #BattleSystem constructor
     def __init__(self):
-        
+        self.pages = [Page(), Page(), Page(), Page()]
+
         #----BUTTON EVENTS-----
         def onPlayerClick(button):
             self.phase = self.PHASE_CHOOSE_ENEMY
@@ -112,8 +109,7 @@ class BattleSystem:
         
         #Create buttons for choosing an enemy
         for i in range(self.getEnemyTierCount()):
-            tiers = ["Low tier vijand", "Mid tier vijand", "High tier vijand", "Eindbaas"]
-            button = Button(i * 200 + 200, 500, w=150, h=40, txt = tiers[i], txtSize = 20, onClick=onEnemyClick)
+            button = Button(i * 200 + 200, 500, w=150, h=40, txt = self.tiers[i], txtSize = 20, onClick=onEnemyClick)
             button.enemyIndex = i
             self.pages[self.PHASE_CHOOSE_ENEMY].add(button)
         
@@ -135,7 +131,7 @@ class BattleSystem:
         x=random.randint(1,6)
         return x
     def drawDice(self, x, y, aantalOgen):
-        photo=self.diceFaces[aantalOgen-1]
+        photo = self.diceFaces[aantalOgen-1]
         
         image(photo,x,y)
     #-----------------
