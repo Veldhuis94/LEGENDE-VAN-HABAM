@@ -1,5 +1,4 @@
 #Made by Audi van Gog
-#comment
 import random
 
 import sys
@@ -7,6 +6,7 @@ sys.path.append('..') #Go one folder up to access the Utilities folder
 from Utilities.Button import Button
 from Utilities.Text import Text
 from Utilities.Page import Page
+from Utilities.FileResources import FileResources
 #import Dobbelstenen
 
 class BattleSystem:
@@ -131,8 +131,7 @@ class BattleSystem:
         x=random.randint(1,6)
         return x
     def drawDice(self, x, y, aantalOgen):
-        photo = self.diceFaces[aantalOgen-1]
-        
+        photo = self.files.getImage("dice"+str(aantalOgen))
         image(photo,x,y)
     #-----------------
     

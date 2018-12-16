@@ -1,31 +1,22 @@
 #Made by Audi van Gog en Hakan
-#import DigitaleComponent
-
-#from BattleSystem.Dobbelstenen import setFaces
 from BattleSystem.BattleSystem import BattleSystem
 from MainMenu import MainMenu
 from AppPhase import AppPhase
+from Utilities.FileResources import FileResources
 
 currentPhase = AppPhase.MAINMENU
 
 mainMenu = MainMenu()
 battleSystem = None
-diceFaces = [] #images of each dice side (1-6)
+files = FileResources()
 
 def setup():
-    global diceFaces
-    #diceFaces = faces
+    global files
     size(1000, 726)
     
-    #laad de afbeeldingen voor de dobbelstenen (code is van Hakan)
-    #Reminder: loadImage can only be executed on this setup function! (You cannot run this on a external script)
-    face1=loadImage('dice_1.png')
-    face2=loadImage('dice_2.png')
-    face3=loadImage('dice_3.png')
-    face4=loadImage('dice_4.png')
-    face5=loadImage('dice_5.png')
-    face6=loadImage('dice_6.png')
-    diceFaces=[face1,face2,face3,face4,face5,face6]
+    for i in range(1, 7):
+        files.loadImageFile('dice_'+str(i)+".png", "dice"+str(i))
+    
 def draw():    
     clear()
     
@@ -41,7 +32,7 @@ def runBattleSystem():
     
     if(battleSystem == None):
         battleSystem = BattleSystem()
-        battleSystem.diceFaces = diceFaces
+        battleSystem.files = files
     if(battleSystem.phase == battleSystem.PHASE_END):
         battleSystem = None
         currentPhase = AppPhase.MAINMENU
@@ -57,4 +48,3 @@ def runMainMenu():
     
     if(not(mainMenu.phase == AppPhase.MAINMENU)):
         currentPhase = mainMenu.phase
-        #print("differentPhase")
