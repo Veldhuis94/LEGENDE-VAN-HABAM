@@ -3,6 +3,9 @@ from BattleSystem.BattleSystem import BattleSystem
 from MainMenu import MainMenu
 from AppPhase import AppPhase
 from Utilities.FileResources import FileResources
+from Utilities.Button import Button
+from Utilities.Text import Text
+
 
 currentPhase = AppPhase.MAINMENU
 
@@ -16,6 +19,11 @@ def setup():
     
     for i in range(1, 7):
         files.loadImageFile('dice_'+str(i)+".png", "dice"+str(i))
+    
+    files.loadFontFile("BlackChancery.vlw", "defaultfont")
+    btn = Button(100, 100)
+    Button.static_defaultFont = files.getFont("defaultfont")
+    Text.static_defaultFont = files.getFont("defaultfont")
     
 def draw():    
     clear()

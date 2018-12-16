@@ -18,8 +18,6 @@ class BattleSystem:
     
     player = 0 #Player index 0-3 (player 1 - 4)
     enemy = 0 #Enemy tier index 0-3 (low tier, mid tier, high tier, final boss)
-    
-    diceFaces = None
 
     tiers = ["Low tier vijand", "Mid tier vijand", "High tier vijand", "Eindbaas"]
 
@@ -101,15 +99,16 @@ class BattleSystem:
         self.pages[self.PHASE_CHOOSE_ENEMY].add(self.headers[1])
         self.pages[self.PHASE_RESULT].add(self.headers[2])
         
+        unitButtonTemplate = Button(200, 500, w=150, h=40)
         #Create buttons for choosing a player
         for i in range(self.getPlayerCount()):
-            button = Button(i * 200 + 200, 500, w=150, h=40, txt = "Speler: " + str(i+1), txtSize = 24, onClick=onPlayerClick)
+            button = unitButtonTemplate.copy(x = i * 200 + 200, txt = "Speler: " + str(i+1), txtSize = 24, onClick=onPlayerClick)
             button.playerIndex = i
             self.pages[self.PHASE_CHOOSE_PLAYER].add(button)
         
         #Create buttons for choosing an enemy
         for i in range(self.getEnemyTierCount()):
-            button = Button(i * 200 + 200, 500, w=150, h=40, txt = self.tiers[i], txtSize = 20, onClick=onEnemyClick)
+            button = unitButtonTemplate.copy(x = i * 200 + 200, txt = self.tiers[i], txtSize = 20, onClick=onEnemyClick)
             button.enemyIndex = i
             self.pages[self.PHASE_CHOOSE_ENEMY].add(button)
         
