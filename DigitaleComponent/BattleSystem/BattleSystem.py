@@ -6,6 +6,7 @@ sys.path.append('..') #Go one folder up to access the Utilities folder
 from Utilities.Button import Button
 from Utilities.Text import Text
 from Utilities.Page import Page
+from Utilities.Image import Image
 from Utilities.FileResources import FileResources
 #import Dobbelstenen
 
@@ -64,7 +65,9 @@ class BattleSystem:
         
         self.playerText.txt = "Player " + str(self.player+1) + " (" + str(playerPP) + ")"
         self.enemyText.txt = self.tiers[self.enemy] + " (" + str(enemyPP) + ")"
-                                                    
+
+        self.playerDiceImage.imageRef = self.files.getImage("dice"+str(playerEyes))
+        self.enemyDiceImage.imageRef = self.files.getImage("dice"+str(enemyEyes))
     #BattleSystem constructor
     def __init__(self):
         self.pages = [Page(), Page(), Page(), Page()]
@@ -125,13 +128,13 @@ class BattleSystem:
         self.pages[self.PHASE_RESULT].add(self.playerText)
         self.pages[self.PHASE_RESULT].add(self.enemyText)
     
+        #Dobbelstenen
+        self.playerDiceImage = Image(None, 250, 300)
+        self.enemyDiceImage = Image(None, 650, 300)
     #Code van hakan
     def randomizer(self):
         x=random.randint(1,6)
         return x
-    def drawDice(self, x, y, aantalOgen):
-        photo = self.files.getImage("dice"+str(aantalOgen))
-        image(photo,x,y)
     #-----------------
     
     #Call this every frame
@@ -142,5 +145,5 @@ class BattleSystem:
         self.pages[self.phase].draw()
         
         if(self.phase == self.PHASE_RESULT):
-            self.drawDice(250, 300, self.playerEyes)
-            self.drawDice(650, 300, self.enemyEyes)
+            self.playerDiceImage.draw()
+            self.enemyDiceImage.draw()
