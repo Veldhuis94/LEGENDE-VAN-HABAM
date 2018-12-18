@@ -1,14 +1,6 @@
 #Made by Audi van Gog
-
-#Version 1.1.1
-#-Fixed bug: buttons that were initialised while the user was holding the mouse button fired their onclick events immediately. 
-#This has been fixed by setting the start value of self.clicked to True
-
-#Version 1.1.0
-#-Added text color variables for different events (txtColorHover and txtColorPressed)
-#-Event based colors will use the default color (ex: bgColorHover -> bgColor) if they are 'None' during initialisation
-#-Added opacity support to all color variables
-#-Button can be enabled or disabled. It's enabled on default.
+#Version 1.2.0
+import copy
 
 #This class is a clickable object (has an event) and can be drawn on screen.
 class Button:
@@ -20,10 +12,14 @@ class Button:
     #[Text]
     txt = "text" #text that gets displayed on the button
     txtSize = 32 #font size
+    txtOffsetX = 0
+    txtOffsetY = 5
     txtColor = (255, 255, 50) #Color of the text
     txtColorHover = None
     txtColorPressed = None
-    
+    txtFont = None
+    static_defaultFont = None
+
     #[Background]
     bgColor = (20, 20, 255) #default background color
     bgColorHover = (20, 255, 20) #background color when the user hovers on the button
@@ -34,8 +30,11 @@ class Button:
     onClick = None #Is a event that runs every time a user clicks on this button. Type: function(Button = self)
     
     enabled = True #Onclick event will be fired and color will change based on input (hover, click)
-    
-    
+
+    @staticmethod
+    def setDefaultFont(font):
+        Button.static_defaultFont = font
+
     #Constructor of the Button, use this to initialise the button. Example usage: myButton = Button(100, 100, w = 100, h = 50, txt='click here')
     def __init__(self, x, y, **args):
         #----------------------
@@ -52,7 +51,7 @@ class Button:
         self.onClick = Button.onClickDefault 
         self.clicked = True 
         self.clickCount = 0 #Amount of times the user has clicked on the button
-        
+
         #Extra arguments
         if(not(args==None)):
             self.__dict__.update(args)
@@ -65,6 +64,20 @@ class Button:
         
         self.txtColorHover = setToDefaultValueIfNone(self.txtColorHover, self.txtColor)
         self.txtColorPressed = setToDefaultValueIfNone(self.txtColorPressed, self.txtColor)
+
+    #Make a copy of this button and return the copy.
+    #Example: myButton.copy(), myButton.copy(x = 5, y = 3)
+    def copy(self, **args):
+        buttonCopy = copy.deepcopy(self)
+
+        buttonCopy.onClick = Button.onClickDefault 
+        buttonCopy.clicked = True 
+        buttonCopy.clickCount = 0 #Amount of times the user has clicked on the button
+
+        if(not(args==None)):
+            buttonCopy.__dict__.update(args)
+        return buttonCopy
+
     #Default onclick event
     def onClickDefault(button):
         print("click", button.clickCount)
@@ -88,12 +101,16 @@ class Button:
         #Text
         opacity = getAlpha(self.txtColorCurrent)
         if opacity > 0:
-           fill(self.txtColorCurrent[0], self.txtColorCurrent[1], self.txtColorCurrent[2], opacity)
-              
-           textSize(self.txtSize)
-           textAlign(CENTER, TOP)
-           
-           text(self.txt, self.x - self.w / 2, self.y - self.h / 2, self.w, self.h)
+            fill(self.txtColorCurrent[0], self.txtColorCurrent[1], self.txtColorCurrent[2], opacity)
+            
+            if(self.txtFont != None):
+                textFont(self.txtFont)
+            elif(Button.static_defaultFont != None):
+                textFont(Button.static_defaultFont)
+            textSize(self.txtSize)
+            textAlign(CENTER, TOP)
+            
+            text(self.txt, self.x - self.w / 2 + self.txtOffsetX, self.y - self.h / 2 + self.txtOffsetY, self.w, self.h)
     
     #Is a position/point (example: mouse cursor) in the area of the button?    
     def positionIsOnButton(self, x, y):
@@ -104,6 +121,9 @@ class Button:
         
         return (x > left and x < right and y > top and y < bottom)
     
+    def isClicked(self):
+        return self.clicked and self.clickCount > 0
+
     #Run this on every frame.
     def update(self):
         mouseIsOnButton = self.positionIsOnButton(mouseX, mouseY)

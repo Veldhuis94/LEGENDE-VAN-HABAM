@@ -1,5 +1,4 @@
 #Made by Audi van Gog
-#comment
 import random
 
 import sys
@@ -7,6 +6,8 @@ sys.path.append('..') #Go one folder up to access the Utilities folder
 from Utilities.Button import Button
 from Utilities.Text import Text
 from Utilities.Page import Page
+from Utilities.Image import Image
+from Utilities.FileResources import FileResources
 #import Dobbelstenen
 
 class BattleSystem:
@@ -18,11 +19,9 @@ class BattleSystem:
     
     player = 0 #Player index 0-3 (player 1 - 4)
     enemy = 0 #Enemy tier index 0-3 (low tier, mid tier, high tier, final boss)
-    
-    pages = [Page(), Page(), Page(), Page()]
-    
-    diceFaces = None
-    
+
+    tiers = ["Low tier vijand", "Mid tier vijand", "High tier vijand", "Eindbaas"]
+
     def getPlayerCount(self):
         return 4
     
@@ -54,26 +53,25 @@ class BattleSystem:
         resultText = ""
         
         if(playerTotal > enemyTotal):
-            print("You win!")
             resultText = "Je hebt gewonnen!"
         elif(playerTotal < enemyTotal):
-            print("You lose!")
             resultText = "Je hebt verloren!"
         else:
-            print("Tie!")
             resultText = "Gelijkspel!"
         self.headers[self.PHASE_RESULT].txt = resultText
-        print("player pp:", playerPP, "enemy pp:", enemyPP, "playerEyes:", playerEyes, "enemyEyes:", enemyEyes, "playerTotal:", playerTotal, "enemyTotal:", enemyTotal)
         
         self.playerEyes = playerEyes
         self.enemyEyes = enemyEyes
-        tiers = ["Low tier vijand", "Mid tier vijand", "High tier vijand", "Eindbaas"]
+        
         self.playerText.txt = "Player " + str(self.player+1) + " (" + str(playerPP) + ")"
-        self.enemyText.txt = tiers[self.enemy] + " (" + str(enemyPP) + ")"
-                                                    
+        self.enemyText.txt = self.tiers[self.enemy] + " (" + str(enemyPP) + ")"
+
+        self.playerDiceImage.imageRef = self.files.getImage("dice"+str(playerEyes))
+        self.enemyDiceImage.imageRef = self.files.getImage("dice"+str(enemyEyes))
     #BattleSystem constructor
     def __init__(self):
-        
+        self.pages = [Page(), Page(), Page(), Page()]
+
         #----BUTTON EVENTS-----
         def onPlayerClick(button):
             self.phase = self.PHASE_CHOOSE_ENEMY
@@ -104,16 +102,16 @@ class BattleSystem:
         self.pages[self.PHASE_CHOOSE_ENEMY].add(self.headers[1])
         self.pages[self.PHASE_RESULT].add(self.headers[2])
         
+        unitButtonTemplate = Button(200, 500, w=150, h=40)
         #Create buttons for choosing a player
         for i in range(self.getPlayerCount()):
-            button = Button(i * 200 + 200, 500, w=150, h=40, txt = "Speler: " + str(i+1), txtSize = 24, onClick=onPlayerClick)
+            button = unitButtonTemplate.copy(x = i * 200 + 200, txt = "Speler: " + str(i+1), txtSize = 24, onClick=onPlayerClick)
             button.playerIndex = i
             self.pages[self.PHASE_CHOOSE_PLAYER].add(button)
         
         #Create buttons for choosing an enemy
         for i in range(self.getEnemyTierCount()):
-            tiers = ["Low tier vijand", "Mid tier vijand", "High tier vijand", "Eindbaas"]
-            button = Button(i * 200 + 200, 500, w=150, h=40, txt = tiers[i], txtSize = 20, onClick=onEnemyClick)
+            button = unitButtonTemplate.copy(x = i * 200 + 200, txt = self.tiers[i], txtSize = 20, onClick=onEnemyClick)
             button.enemyIndex = i
             self.pages[self.PHASE_CHOOSE_ENEMY].add(button)
         
@@ -130,14 +128,13 @@ class BattleSystem:
         self.pages[self.PHASE_RESULT].add(self.playerText)
         self.pages[self.PHASE_RESULT].add(self.enemyText)
     
+        #Dobbelstenen
+        self.playerDiceImage = Image(None, 250, 300)
+        self.enemyDiceImage = Image(None, 650, 300)
     #Code van hakan
     def randomizer(self):
         x=random.randint(1,6)
         return x
-    def drawDice(self, x, y, aantalOgen):
-        photo=self.diceFaces[aantalOgen-1]
-        
-        image(photo,x,y)
     #-----------------
     
     #Call this every frame
@@ -148,5 +145,5 @@ class BattleSystem:
         self.pages[self.phase].draw()
         
         if(self.phase == self.PHASE_RESULT):
-            self.drawDice(250, 300, self.playerEyes)
-            self.drawDice(650, 300, self.enemyEyes)
+            self.playerDiceImage.draw()
+            self.enemyDiceImage.draw()
