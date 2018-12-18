@@ -15,7 +15,7 @@ def cards(type):
         res = random.randint(0,20)
         if type == 'action':
             if len(leftAction) == 20:
-                leftAction = []
+                leftAction = [1]
             if not res in leftAction:
                 leftAction.append(res)
                 found = True
