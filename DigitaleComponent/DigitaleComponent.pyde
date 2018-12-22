@@ -1,4 +1,5 @@
-#Made by Audi van Gog en Hakan
+#Het digitale component voor Legende van Habam is gemaakt door GROEP INF1C
+
 from BattleSystem.BattleSystem import BattleSystem
 from MainMenu import MainMenu
 from AppPhase import AppPhase
@@ -27,7 +28,6 @@ def setup():
         files.loadImageFile('dice_'+str(i)+".png", "dice"+str(i))
     
     files.loadFontFile("BlackChancery.vlw", "defaultfont")
-    btn = Button(100, 100)
     Button.static_defaultFont = files.getFont("defaultfont")
     Text.static_defaultFont = files.getFont("defaultfont")
     
@@ -62,6 +62,7 @@ def runBoardRandomizer():
     if(boardRandomizer.goToMainMenu):
         currentPhase = AppPhase.MAINMENU
         mainMenu.phase = currentPhase
+        boardRandomizer.goToMainMenu = False
 def runTellers():
     global tellerSystem
     global currentPhase
@@ -70,6 +71,7 @@ def runTellers():
     if(tellerSystem.goToMainMenu):
         currentPhase = AppPhase.MAINMENU
         mainMenu.phase = currentPhase
+        tellerSystem.goToMainMenu = False
 def runBattleSystem():
     global battleSystem
     global currentPhase
@@ -77,6 +79,7 @@ def runBattleSystem():
     if(battleSystem == None):
         battleSystem = BattleSystem()
         battleSystem.files = files
+        battleSystem.tellers = tellerSystem
     if(battleSystem.phase == battleSystem.PHASE_END):
         battleSystem = None
         currentPhase = AppPhase.MAINMENU

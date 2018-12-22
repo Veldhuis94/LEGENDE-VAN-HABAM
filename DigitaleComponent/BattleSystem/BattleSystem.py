@@ -8,6 +8,7 @@ from Utilities.Text import Text
 from Utilities.Page import Page
 from Utilities.Image import Image
 from Utilities.FileResources import FileResources
+from tellers.tellers_class import tellers
 #import Dobbelstenen
 
 class BattleSystem:
@@ -30,7 +31,7 @@ class BattleSystem:
     
     #index: 0-3 (speler 1-4)
     def getPlayerPowerpoints(self, i):
-        ppList = [2, 2, 2, 2]
+        ppList = [2,2,2,2]
         return ppList[i]
     
     #index: 0-3 (tier 1-3 + final boss)
@@ -54,6 +55,7 @@ class BattleSystem:
         
         if(playerTotal > enemyTotal):
             resultText = "Je hebt gewonnen!"
+            self.tellers.win_points += 1
         elif(playerTotal < enemyTotal):
             resultText = "Je hebt verloren!"
         else:
