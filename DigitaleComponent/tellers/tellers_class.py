@@ -1,8 +1,16 @@
-from Button import Button
+import sys
+sys.path.append('..') #Go one folder up to access the Utilities folder
+from Utilities.Button import Button
+
 import random
 class tellers:
 
     def __init__(self):
+        def onBackButtonClick(button):
+            self.goToMainMenu = True
+        self.goToMainMenu = False
+        self.backButton = Button(1000, 300, txt="Back", onClick=onBackButtonClick)
+
         self.wood=0
         self.brick=0
         self.metal=0
@@ -170,34 +178,37 @@ class tellers:
 
         
     def draw(self):
-       image(self.img,0,0)
-       noFill()
-       rect(1200,80,305,342,5)
-       fill(0)
-       text('Actie kaart',1350,20)
-       text('HOUT',220,20)
-       text(str(self.wood),220,80)
-       text('STEEN',220,170)
-       text(str(self.brick),220,230)
-       text('IJZER',220,320)
-       text(str(self.metal),220,380)
-       text('GRAAN',220,480)
-       text(str(self.grain),220,530)
-       text(self.p1_display,620,20)
-       text(str(self.stamina1),620,80)
-       text(self.p2_display,620,170)
-       text(str(self.stamina2),620,230)
-       text(self.p3_display,620,320)
-       text(str(self.stamina3),620,380)
-       text(self.p4_display,620,480)
-       text(str(self.stamina4),620,530)
-       text('Overwinningspunten',620,600)
-       text(str(self.win_points),620,650)
-       text('Opslag Capaciteit',220,600)
-       text(str(self.capacity),220,650)
+        image(self.img,0,0)
+        noFill()
+        rect(1200,80,305,342,5)
+        fill(0)
+        text('Actie kaart',1350,20)
+        text('HOUT',220,20)
+        text(str(self.wood),220,80)
+        text('STEEN',220,170)
+        text(str(self.brick),220,230)
+        text('IJZER',220,320)
+        text(str(self.metal),220,380)
+        text('GRAAN',220,480)
+        text(str(self.grain),220,530)
+        text(self.p1_display,620,20)
+        text(str(self.stamina1),620,80)
+        text(self.p2_display,620,170)
+        text(str(self.stamina2),620,230)
+        text(self.p3_display,620,320)
+        text(str(self.stamina3),620,380)
+        text(self.p4_display,620,480)
+        text(str(self.stamina4),620,530)
+        text('Overwinningspunten',620,600)
+        text(str(self.win_points),620,650)
+        text('Opslag Capaciteit',220,600)
+        text(str(self.capacity),220,650)
 
-       self.action_card()
-       for button in self.buttons2:
+        self.action_card()
+        for button in self.buttons2:
             button.update()
             button.draw()
             button.update()
+    
+        self.backButton.update()
+        self.backButton.draw()

@@ -1,9 +1,19 @@
+import sys
+sys.path.append('..') #Go one folder up to access the Utilities folder
+from Utilities.Button import Button
 import random
-from Button import Button
+
 class Board:
     def __init__(self):
-        self.button=Button(960, 1000, txt="Nieuw Bord", bgColor=(255, 255, 255), onClick =self.draw_board, w = 350, h = 60)
-    def draw_board(self,b):
+        def onDrawBoardClick(button):
+            self.draw_board()
+        self.button=Button(300, 600, txt="Nieuw Bord", bgColor=(255, 255, 255), onClick = onDrawBoardClick, w = 350, h = 60)
+
+        def onBackButtonClick(button):
+            self.goToMainMenu = True
+        self.goToMainMenu = False
+        self.backButton = Button(700, 600, txt="Back", onClick=onBackButtonClick)
+    def boardSetup(self):
         self.board=[]
         self.wood=loadImage('Hout.jpg')
         self.stone=loadImage('Stone.jpg')
@@ -20,33 +30,42 @@ class Board:
             self.board.append(self.empty)
         for n in range(23):
             self.board.append(self.water)
+
+    def draw_board(self):
         self.amount_pieces=0
         self.amount_rows=0
-        self.piece_x=300
+        self.piece_x=180
         self.piece_y=100
         def row(self,amount_pieces,piece_x,piece_y):
             while self.amount_pieces<13:
                 self.piece=random.choice(self.board)
+                self.piece.resize(50, 50) #Make them smaller so all the pieces can be displayed on the window 
                 image(self.piece,self.piece_x,self.piece_y)
-                self.piece_x+=100
+                self.piece_x+=50
                 self.amount_pieces+=1
         while self.amount_rows<7:
             self.amount_pieces=0
-            self.piece_y+=100
-            self.piece_x=300
+            self.piece_y+=50
+            self.piece_x=180
             row(self,self.amount_pieces,self.piece_x,self.piece_y)
             self.amount_rows+=1
         
     def setup(self):
-        fullScreen()
-        self.font=loadFont('BlackChancery-48.vlw')
+        #fullScreen()
+        #self.font=loadFont('BlackChancery-48.vlw')
+        self.font=loadFont('BlackChancery.vlw')
+
         self.img=loadImage('TITLESCREEN2.png')
         # background(255,165,0)
+        self.img.resize(1000, 726) #resize to the size of the screen
+
+        self.boardSetup()
+    def drawOnce(self):
         background(self.img)
         textFont(self.font)
-        fill(0)
-        text('De Legende Van HABAM',700,150)
     def draw(self):
         self.button.update()
+        self.backButton.update()
         self.button.draw()
+        self.backButton.draw()
         

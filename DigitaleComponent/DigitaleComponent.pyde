@@ -5,13 +5,19 @@ from AppPhase import AppPhase
 from Utilities.FileResources import FileResources
 from Utilities.Button import Button
 from Utilities.Text import Text
-
+from tellers.tellers_class import tellers
+from bord_randomizer.bord_randomizer import Board
 
 currentPhase = AppPhase.MAINMENU
 
 mainMenu = MainMenu()
-battleSystem = None
+battleSystem = None #Wordt later geïnitialiseerd
+tellerSystem = tellers()
+boardRandomizer = Board()
+
 files = FileResources()
+
+board_randomizer_firstFrame = True
 
 def setup():
     global files
@@ -25,15 +31,45 @@ def setup():
     Button.static_defaultFont = files.getFont("defaultfont")
     Text.static_defaultFont = files.getFont("defaultfont")
     
-def draw():    
-    clear()
+    tellerSystem.setup()
+    boardRandomizer.setup()
+def draw():
+    global board_randomizer_firstFrame
+    
+    if(currentPhase != AppPhase.BOARD_RANDOMIZER):
+        clear()
+        board_randomizer_firstFrame = True
     
     if currentPhase == AppPhase.BATTLESYSTEM:
         runBattleSystem()
+    elif(currentPhase == AppPhase.INVENTORY):
+        runTellers()
+    elif(currentPhase == AppPhase.BOARD_RANDOMIZER):
+        runBoardRandomizer()
     else:
         runMainMenu()
-   
-        
+    
+def runBoardRandomizer():
+    global currentPhase
+    global board_randomizer_firstFrame
+    if(board_randomizer_firstFrame):
+        clear()
+        boardRandomizer.draw_board()
+        boardRandomizer.drawOnce()
+        board_randomizer_firstFrame = False
+    boardRandomizer.draw()
+    
+    if(boardRandomizer.goToMainMenu):
+        currentPhase = AppPhase.MAINMENU
+        mainMenu.phase = currentPhase
+def runTellers():
+    global tellerSystem
+    global currentPhase
+    tellerSystem.draw()
+    
+    if(tellerSystem.goToMainMenu):
+        currentPhase = AppPhase.MAINMENU
+        mainMenu.phase = currentPhase
 def runBattleSystem():
     global battleSystem
     global currentPhase
