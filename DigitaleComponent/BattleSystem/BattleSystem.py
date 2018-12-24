@@ -64,10 +64,13 @@ class BattleSystem:
         if(playerTotal > enemyTotal):
             resultText = "Je hebt gewonnen!"
             self.tellers.win_points += 1
+            self.backButton.enabled = True
         elif(playerTotal < enemyTotal):
             resultText = "Je hebt verloren!"
+            self.backButton.enabled = True
         else:
             resultText = "Gelijkspel!"
+            self.backButton.enabled = False
         self.headers[self.PHASE_RESULT].txt = resultText
         
         print("---FIGHT---")
@@ -171,12 +174,12 @@ class BattleSystem:
             self.pages[self.PHASE_CHOOSE_ENEMY].add(button)
         
         #Reset button: fight again, Backbutton: resets the battlesystem (for now)
-        resetButton = Button(300, 600, w=150, h=40, txt = "Vecht opnieuw!", txtSize = 20, onClick=onResetClick)
-        backButton = Button(700, 600, w=150, h=40, txt = "Terug", txtSize = 20, onClick=onBackClick)
+        self.resetButton = Button(300, 600, w=150, h=40, txt = "Vecht opnieuw!", txtSize = 20, onClick=onResetClick)
+        self.backButton = Button(700, 600, w=150, h=40, txt = "Terug", txtSize = 20, onClick=onBackClick)
         
         #Add those buttons to the result page
-        self.pages[self.PHASE_RESULT].add(resetButton)
-        self.pages[self.PHASE_RESULT].add(backButton)
+        self.pages[self.PHASE_RESULT].add(self.resetButton)
+        self.pages[self.PHASE_RESULT].add(self.backButton)
         
         
     #Code van hakan

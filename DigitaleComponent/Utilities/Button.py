@@ -1,5 +1,5 @@
 #Made by Audi van Gog
-#Version 1.2.0
+#Version 1.3.0
 import copy
 
 #This class is a clickable object (has an event) and can be drawn on screen.
@@ -17,6 +17,7 @@ class Button:
     txtColor = (255, 255, 50) #Color of the text
     txtColorHover = None
     txtColorPressed = None
+    txtColorDisabled = None
     txtFont = None
     static_defaultFont = None
 
@@ -24,6 +25,7 @@ class Button:
     bgColor = (20, 20, 255) #default background color
     bgColorHover = (20, 255, 20) #background color when the user hovers on the button
     bgColorPressed = (255, 20, 20) #background color when the user clicks on the button
+    bgColorDisabled = (100, 100, 100)
     radius = 5 #rounded cornors
     
     #[Button events]
@@ -61,9 +63,11 @@ class Button:
         
         self.bgColorHover = setToDefaultValueIfNone(self.bgColorHover, self.bgColor)
         self.bgColorPressed = setToDefaultValueIfNone(self.bgColorPressed, self.bgColor)
-        
+        self.bgColorDisabled = setToDefaultValueIfNone(self.bgColorDisabled, self.bgColor)
+
         self.txtColorHover = setToDefaultValueIfNone(self.txtColorHover, self.txtColor)
         self.txtColorPressed = setToDefaultValueIfNone(self.txtColorPressed, self.txtColor)
+        self.txtColorDisabled = setToDefaultValueIfNone(self.txtColorDisabled, self.txtColor)
 
     #Make a copy of this button and return the copy.
     #Example: myButton.copy(), myButton.copy(x = 5, y = 3)
@@ -140,7 +144,11 @@ class Button:
                     self.clickCount += 1
                     self.onClick(self)
         else:
-            self.bgColorCurrent = self.bgColor
-            self.txtColorCurrent = self.txtColor
+            if(not(self.enabled)): #If the button has been disabled...
+                self.bgColorCurrent = self.bgColorDisabled
+                self.txtColorCurrent = self.txtColorDisabled
+            else:
+                self.bgColorCurrent = self.bgColor
+                self.txtColorCurrent = self.txtColor
         if not(mousePressed):
             self.clicked = False

@@ -1,3 +1,6 @@
+#-Version 1.3.0
+-Added color variables (txtColorDisabled and bgColorDisabled) for the button while it's disabled
+
 #Version 1.2.0
 #-Added font type variable
 #-Added isClicked to check if you have pressed the button (handy if you can't use onClick event)
