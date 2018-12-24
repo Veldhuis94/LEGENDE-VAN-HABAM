@@ -17,9 +17,6 @@ class BattleSystem:
     PHASE_CHOOSE_ENEMY = 1
     PHASE_RESULT = 2
     PHASE_END = 3
-    
-    player = 0 #Player index 0-3 (player 1 - 4)
-    enemy = 0 #Enemy tier index 0-3 (low tier, mid tier, high tier, final boss)
 
     tiers = ["Low tier vijand", "Mid tier vijand", "High tier vijand", "Eindbaas"]
 
@@ -42,13 +39,24 @@ class BattleSystem:
         
     #Start the fight between the chosen player and the enemy
     def fight(self):
-        playerPP = self.getPlayerPowerpoints(self.player)
+        MAX_DICES_PLAYER = 2
+        MAX_DICES_ENEMY = 2
+
+        playerPPDict = dict() #amount of powerpoints of each player [int per key]
+        playerEyesDict = dict() #eyes of thrown dices per player [int array per key]
+        playerTotalDict = dict() #Powerpoints + thrown eyes per player
+        playerTotal = 0 #Sum of playerTotalDict
+
+        for i in self.selectedPlayers:
+            playerPPDict[i] = self.getPlayerPowerpoints(i)
+            playerEyesDict[i] = [random.randint(1, 6) for _ in range(MAX_DICES_PLAYER)]
+            playerTotalDict[i] = playerPPDict[i] + max(playerEyesDict[i]) #Get the highest thrown die + player powerpoints
+            playerTotal += playerTotalDict[i]
         enemyPP = self.getEnemyPowerpoints(self.enemy)
         
-        playerEyes = self.randomizer()
-        enemyEyes = self.randomizer()
+        enemyDices = [random.randint(1,6) for _ in range(MAX_DICES_ENEMY)]
+        enemyEyes = max(enemyDices)
         
-        playerTotal = playerPP + playerEyes
         enemyTotal = enemyPP + enemyEyes
         
         resultText = ""
@@ -62,23 +70,67 @@ class BattleSystem:
             resultText = "Gelijkspel!"
         self.headers[self.PHASE_RESULT].txt = resultText
         
-        self.playerEyes = playerEyes
-        self.enemyEyes = enemyEyes
-        
-        self.playerText.txt = "Player " + str(self.player+1) + " (" + str(playerPP) + ")"
-        self.enemyText.txt = self.tiers[self.enemy] + " (" + str(enemyPP) + ")"
+        print("---FIGHT---")
+        print("playerPPDict",playerPPDict)
+        print("playerEyesDict",playerEyesDict)
+        print("playerTotalDict",playerTotalDict)
+        print("playerTotal",playerTotal)
+        print("enemyTotal",enemyTotal)
 
-        self.playerDiceImage.imageRef = self.files.getImage("dice"+str(playerEyes))
-        self.enemyDiceImage.imageRef = self.files.getImage("dice"+str(enemyEyes))
+        #self.playerEyes = playerEyes
+        #self.enemyEyes = enemyEyes
+        
+        #self.playerText.txt = "Player " + str(self.player+1) + " (" + str(playerPP) + ")"
+        #self.enemyText.txt = self.tiers[self.enemy] + " (" + str(enemyPP) + ")"
+
+        #self.playerDiceImage.imageRef = self.files.getImage("dice1")
+        #self.enemyDiceImage.imageRef = self.files.getImage("dice"+str(enemyEyes))
+
+        #self.playerText = Text("Speler", 300, 270, 200, 32, txtSize=16, txtColor = (255,255,255))
+        #self.enemyText = Text("Vijand", 700, 270, 200, 32, txtSize=16, txtColor = (255,255,255))
+        #self.pages[self.PHASE_RESULT].add(self.playerText)
+        #self.pages[self.PHASE_RESULT].add(self.enemyText)
+
+        y = 250
+        for playerIndex in playerEyesDict:
+            x = 240
+            playerText = Text("Speler "+str(playerIndex+1) + " (" + str(playerPPDict[playerIndex]) + ")", 300, y-8, 200, 32, txtSize=16, txtColor = (255,255,255))
+            self.pages[self.PHASE_RESULT].add(playerText)
+            for dice in playerEyesDict[playerIndex]:
+                img = self.files.getImage("dice"+str(dice)).copy()
+                img.resize(50, 50)
+                self.pages[self.PHASE_RESULT].add(Image(img, x, y))
+                x += 60
+            y += 80
+        
+        for i in range(len(enemyDices)):
+            img = self.files.getImage("dice"+str(enemyDices[i])).copy()
+            img.resize(50, 50)
+            self.pages[self.PHASE_RESULT].add(Image(img, 580 + 60 * i, 250))
+        self.pages[self.PHASE_RESULT].add(Text(self.tiers[self.enemy] + " (" + str(enemyPP) + ")", 640, 250-8, 200, 32, txtSize=16, txtColor = (255,255,255)))
+            
+
     #BattleSystem constructor
     def __init__(self):
         self.pages = [Page(), Page(), Page(), Page()]
 
+        self.selectedPlayers = set() #Player index 0-3 (player 1 - 4)
+        self.enemy = 0 #Enemy tier index 0-3 (low tier, mid tier, high tier, final boss)
+
         #----BUTTON EVENTS-----
         def onPlayerClick(button):
-            self.phase = self.PHASE_CHOOSE_ENEMY
             self.player = button.playerIndex
-        
+
+            if(button.playerIndex in self.selectedPlayers):
+                self.selectedPlayers.remove(button.playerIndex)
+                button.txt = button.txt[:-1]
+            else:
+                self.selectedPlayers.add(button.playerIndex)
+                button.txt += "<"
+        def onNextClick(button):
+            if(len(self.selectedPlayers) > 0):
+                self.phase = self.PHASE_CHOOSE_ENEMY
+
         def onEnemyClick(button):
             self.phase = self.PHASE_RESULT
             self.enemy = button.enemyIndex
@@ -110,7 +162,8 @@ class BattleSystem:
             button = unitButtonTemplate.copy(x = i * 200 + 200, txt = "Speler: " + str(i+1), txtSize = 24, onClick=onPlayerClick)
             button.playerIndex = i
             self.pages[self.PHASE_CHOOSE_PLAYER].add(button)
-        
+        self.pages[self.PHASE_CHOOSE_PLAYER].add(Button(500, 600, txt="Volgende", w=150, h=40, txtSize=24, onClick=onNextClick))
+
         #Create buttons for choosing an enemy
         for i in range(self.getEnemyTierCount()):
             button = unitButtonTemplate.copy(x = i * 200 + 200, txt = self.tiers[i], txtSize = 20, onClick=onEnemyClick)
@@ -118,21 +171,14 @@ class BattleSystem:
             self.pages[self.PHASE_CHOOSE_ENEMY].add(button)
         
         #Reset button: fight again, Backbutton: resets the battlesystem (for now)
-        resetButton = Button(300, 500, w=150, h=40, txt = "Vecht opnieuw!", txtSize = 20, onClick=onResetClick)
-        backButton = Button(700, 500, w=150, h=40, txt = "Terug", txtSize = 20, onClick=onBackClick)
+        resetButton = Button(300, 600, w=150, h=40, txt = "Vecht opnieuw!", txtSize = 20, onClick=onResetClick)
+        backButton = Button(700, 600, w=150, h=40, txt = "Terug", txtSize = 20, onClick=onBackClick)
         
         #Add those buttons to the result page
         self.pages[self.PHASE_RESULT].add(resetButton)
         self.pages[self.PHASE_RESULT].add(backButton)
         
-        self.playerText = Text("Speler", 300, 270, 200, 32, txtSize=16, txtColor = (255,255,255))
-        self.enemyText = Text("Vijand", 700, 270, 200, 32, txtSize=16, txtColor = (255,255,255))
-        self.pages[self.PHASE_RESULT].add(self.playerText)
-        self.pages[self.PHASE_RESULT].add(self.enemyText)
-    
-        #Dobbelstenen
-        self.playerDiceImage = Image(None, 250, 300)
-        self.enemyDiceImage = Image(None, 650, 300)
+        
     #Code van hakan
     def randomizer(self):
         x=random.randint(1,6)
@@ -145,7 +191,3 @@ class BattleSystem:
     #Call this every frame
     def draw(self):
         self.pages[self.phase].draw()
-        
-        if(self.phase == self.PHASE_RESULT):
-            self.playerDiceImage.draw()
-            self.enemyDiceImage.draw()
