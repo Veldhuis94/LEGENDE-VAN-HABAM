@@ -21,6 +21,10 @@ class tellers:
         self.stamina4=7
         self.win_points=0
         self.capacity=10
+        self.power1=2
+        self.power2=2
+        self.power3=2
+        self.power4=2
         player1='Mahmoud'
         self.p1_display='Stamina '+player1
         player2='Hakan'
@@ -53,7 +57,35 @@ class tellers:
                 Button(100, 670, txt="-", bgColor=(255, 255, 255), onClick =self.sub_capacity, w = 100, h = 50),
                 #Button(500, 670, txt="-", bgColor=(255, 255, 255), onClick =self.sub_winning, w = 100, h = 50),
                 Button(1000, 100, txt="Dag voorbij", bgColor=(255, 255, 255), onClick =self.playersdone, w = 300, h = 50),
-                Button(1000, 200, txt="reset", bgColor=(255, 255, 255), onClick =self.another_card, w = 300, h = 50)]
+                Button(1000, 200, txt="reset", bgColor=(255, 255, 255), onClick =self.another_card, w = 300, h = 50),
+                Button(330, 790, txt="+", bgColor=(255, 255, 255), onClick =self.powerup1, w = 100, h = 50),
+                Button(100, 790, txt="-", bgColor=(255, 255, 255), onClick =self.powerdown1, w = 100, h = 50),
+                Button(330, 890, txt="+", bgColor=(255, 255, 255), onClick =self.powerup3, w = 100, h = 50),
+                Button(100, 890, txt="-", bgColor=(255, 255, 255), onClick =self.powerdown3, w = 100, h = 50),
+                Button(730, 790, txt="+", bgColor=(255, 255, 255), onClick =self.powerup2, w = 100, h = 50), 
+                Button(500, 790, txt="-", bgColor=(255, 255, 255), onClick =self.powerdown2, w = 100, h = 50),
+                Button(730, 890, txt="+", bgColor=(255, 255, 255), onClick =self.powerup4, w = 100, h = 50),
+                Button(500, 890, txt="-", bgColor=(255, 255, 255), onClick =self.powerdown4, w = 100, h = 50)]
+    def powerup1(self,self1):
+        self.power1+=1
+    def powerdown1(self,self1):
+        if self.power1>0:
+            self.power1-=1
+    def powerup2(self,self1):
+        self.power2+=1
+    def powerdown2(self,self1):
+        if self.power2>0:
+            self.power2-=1
+    def powerup3(self,self1):
+        self.power3+=1
+    def powerdown3(self,self1):
+        if self.power3>0:
+            self.power3-=1
+    def powerup4(self,self1):
+        self.power4+=1
+    def powerdown4(self,self1):
+        if self.power4>0:
+            self.power4-=1
     def addition_winning(self,self1):
 
         if self.win_points<20:
@@ -203,6 +235,14 @@ class tellers:
         text(str(self.win_points),620,650)
         text('Opslag Capaciteit',220,600)
         text(str(self.capacity),220,650)
+        text(str(self.power1),220,780)
+        text('KrachtPunten Mahmoud',215,720)
+        text(str(self.power3),220,880)
+        text('KrachtPunten Audi',215,825)
+        text(str(self.power2),620,780)
+        text('KrachtPunten Hakan',615,720)
+        text(str(self.power4),620,880)
+        text('KrachtPunten Bastiaan',615,825)
 
         self.action_card()
         for button in self.buttons2:
