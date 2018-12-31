@@ -80,20 +80,6 @@ class BattleSystem:
         print("playerTotal",playerTotal)
         print("enemyTotal",enemyTotal)
 
-        #self.playerEyes = playerEyes
-        #self.enemyEyes = enemyEyes
-        
-        #self.playerText.txt = "Player " + str(self.player+1) + " (" + str(playerPP) + ")"
-        #self.enemyText.txt = self.tiers[self.enemy] + " (" + str(enemyPP) + ")"
-
-        #self.playerDiceImage.imageRef = self.files.getImage("dice1")
-        #self.enemyDiceImage.imageRef = self.files.getImage("dice"+str(enemyEyes))
-
-        #self.playerText = Text("Speler", 300, 270, 200, 32, txtSize=16, txtColor = (255,255,255))
-        #self.enemyText = Text("Vijand", 700, 270, 200, 32, txtSize=16, txtColor = (255,255,255))
-        #self.pages[self.PHASE_RESULT].add(self.playerText)
-        #self.pages[self.PHASE_RESULT].add(self.enemyText)
-
         y = 250
         for playerIndex in playerEyesDict:
             x = 240
