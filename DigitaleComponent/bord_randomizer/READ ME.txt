@@ -1,0 +1,1 @@
+NOTE: De Button class  en de board_randomizer class moeten in dezelfde map zitten!! 
