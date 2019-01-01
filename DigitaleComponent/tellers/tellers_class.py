@@ -10,7 +10,7 @@ class tellers:
             self.goToMainMenu = True
         self.goToMainMenu = False
         self.backButton = Button(1000, 300, txt="Back", onClick=onBackButtonClick)
-
+        self.effect10=False
         self.wood=0
         self.brick=0
         self.metal=0
@@ -25,6 +25,11 @@ class tellers:
         self.power2=2
         self.power3=2
         self.power4=2
+        self.days=0
+        self.bagcount=False
+        self.newdeck=False
+        self.action11chosen=False
+        self.actionbagcap=False
         player1='Mahmoud'
         self.p1_display='Stamina '+player1
         player2='Hakan'
@@ -33,7 +38,6 @@ class tellers:
         self.p3_display='Stamina '+player3
         player4='Bastiaan'
         self.p4_display='Stamina '+player4
-        self.img=loadImage("TITELSCREEN2.png")
         self.w=1920
         self.h=1080
         self.buttons2=[Button(330, 100, txt="+", bgColor=(255, 255, 255), onClick =self.addition_wood, w = 100, h = 50), 
@@ -159,6 +163,11 @@ class tellers:
             self.grain=0
     def playersdone(self,self1):
         self.players_done=True
+        if self.effect10:
+            self.days+=0
+        else:
+            self.days+=1
+            self.effect10=False
         return self.players_done
 
     def action_card(self):
@@ -166,6 +175,12 @@ class tellers:
         if self.players_done:
             image(self.card,1203,83)
             self.buttons2[18].enabled=False
+            if self.card==self.action11 and self.newdeck==False:
+                self.action11chosen=True
+                self.actionbagcap=True
+
+
+
     
     def another_card(self,self1):
         global card
@@ -177,6 +192,10 @@ class tellers:
         self.card=random.choice(self.action_cards)
         self.action_cards.remove(self.card)
         self.buttons2[18].enabled=True
+        self.effect10=False
+        if self.actionbagcap:
+            self.capacity+=5
+            self.actionbagcap=False
         if self.clicked==1:
             redraw()
     def winning(self,self1):
@@ -194,23 +213,33 @@ class tellers:
         global card
         global players_done
         global clicked
-
+        global action11
         self.img=loadImage("TITLESCREEN2.png")
+        self.bag=loadImage("bag.png")
         self.players_done=False
         self.clicked=0
-        self.action_cards=[]
+        self.action11=loadImage('actiekaart11.png')
+        self.action_cards=[self.action11]
         for self.i in range(1,21):
             self.filename = "actiekaart"+str(self.i)+".png"
-            if self.i!=10:
-                self.action_cards.append(loadImage(self.filename))   
+            if self.i!=10 and self.i!=11:
+                self.action_cards.append(loadImage(self.filename))  
         self.card=random.choice(self.action_cards)
         self.action_cards.remove(self.card)
         
-
-
         
     def draw(self):
+        if self.action_cards==[]:
+            self.newdeck=True
+            for self.i in range(1,21):
+                self.filename = "actiekaart"+str(self.i)+".png"
+                if self.i!=10 and self.i!=11:
+                    self.action_cards.append(loadImage(self.filename))
         image(self.img,0,0)
+        if  self.bagcount:
+            image(self.bag,850,450)
+        if self.action11chosen:
+            image(self.bag,1000,450)
         noFill()
         rect(1200,80,305,342,5)
         fill(0)
@@ -243,8 +272,10 @@ class tellers:
         text('KrachtPunten Hakan',615,720)
         text(str(self.power4),620,880)
         text('KrachtPunten Bastiaan',615,825)
-
+        if self.buttons2[18].enabled==True:
+            self.buttons[19].enabled=False
         self.action_card()
+
         for button in self.buttons2:
             button.update()
             button.draw()
