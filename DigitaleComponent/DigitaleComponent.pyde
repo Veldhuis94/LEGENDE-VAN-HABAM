@@ -8,6 +8,7 @@ from Utilities.Button import Button
 from Utilities.Text import Text
 from tellers.tellers_class import tellers
 from bord_randomizer.bord_randomizer import Board
+from Credits.CreditsPage import CreditsPage
 
 currentPhase = AppPhase.MAINMENU
 
@@ -15,6 +16,7 @@ mainMenu = MainMenu()
 battleSystem = None #Wordt later geïnitialiseerd
 tellerSystem = tellers()
 boardRandomizer = Board()
+creditsPage = CreditsPage()
 
 files = FileResources()
 
@@ -46,6 +48,8 @@ def draw():
         runTellers()
     elif(currentPhase == AppPhase.BOARD_RANDOMIZER):
         runBoardRandomizer()
+    elif(currentPhase == AppPhase.CREDITS):
+        runCredits()
     else:
         runMainMenu()
     
@@ -95,3 +99,9 @@ def runMainMenu():
     
     if(not(mainMenu.phase == AppPhase.MAINMENU)):
         currentPhase = mainMenu.phase
+        
+def runCredits():
+    global creditsPage
+    global curretPhase
+    creditsPage.update()
+    creditsPage.draw()
