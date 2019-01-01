@@ -15,7 +15,7 @@ class MainMenu:
         def onBattleSystemClick(button):
             self.phase = AppPhase.BATTLESYSTEM
         
-        self.page.add(Text("Hoofdmenu", 500, 100, 500, 100, txtColor=(255,255,255), txtSize = 50))
+        self.page.add(Text("Hoofdmenu", 500, 100, 500, 100, txtColor=(255,255,255), txtSize = 50)
         self.page.add(Button(500, 400, onClick = onInventoryClick, txt="Inventaris"))
         self.page.add(Button(500, 480, onClick = onBattleSystemClick, txt="Gevecht"))
        
