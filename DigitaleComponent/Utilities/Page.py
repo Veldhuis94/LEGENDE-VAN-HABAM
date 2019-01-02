@@ -19,4 +19,7 @@ class Page:
             
     def add(self, item):
         self.drawables.append(item)
-        
+    
+    #Empty the drawables list
+    def clear(self):
+        self.drawables = []
