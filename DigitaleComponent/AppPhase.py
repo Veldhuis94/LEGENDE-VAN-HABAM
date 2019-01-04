@@ -7,4 +7,5 @@ class AppPhase:
     CREDITS = 5
     PLAYERNAMES = 6
     MARKET = 7
+    SPELVERLOOP = 8
     
