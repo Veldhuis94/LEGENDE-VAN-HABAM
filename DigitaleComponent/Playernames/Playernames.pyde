@@ -1,7 +1,4 @@
-import sys
-sys.path.append('..')
-from Utilities.Button import Button
-from Utilities.TextField import TextField
+#gemaakt door Bastiaan
 playernames = Playernames()
 def setup():
     size(1000, 726)

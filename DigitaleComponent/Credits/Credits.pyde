@@ -1,18 +1,10 @@
-#Made by Audi van Gog en Hakan
-from CreditsPage import CreditsPage
-#import Dobbelstenen
-
-creditsPage = CreditsPage()
+#gemaakt door Bastiaan
+playernames = Playernames()
 def setup():
     size(1000, 726)
-
     
 def draw():
-    global creditsPage
+    global playernames
     clear()
-    
-    if(creditsPage.phase == creditsPage.PHASE_END):
-        c = CreditsPage() #Start het gevechtssysteem opnieuw op
-    else:
-        creditsPage.update()
-        creditsPage.draw()
+    self.update()
+    self.draw()

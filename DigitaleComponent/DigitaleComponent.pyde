@@ -10,6 +10,7 @@ from Utilities.TextField import TextField
 from tellers.tellers_class import tellers
 from bord_randomizer.bord_randomizer import Board
 from Playernames.PlayernamesPage import Playernames
+from Credits.CreditsPage import Credits
 
 
 currentPhase = AppPhase.MAINMENU
@@ -19,6 +20,7 @@ battleSystem = None #Wordt later geïnitialiseerd
 tellerSystem = tellers()
 boardRandomizer = Board()
 playernames = Playernames()
+creditsPage = Credits()
 
 files = FileResources()
 #playernames
