@@ -35,18 +35,18 @@ class Board:
         self.amount_pieces=0
         self.amount_rows=0
         self.piece_x=180
-        self.piece_y=100
+        self.piece_y=-50
         def row(self,amount_pieces,piece_x,piece_y):
             while self.amount_pieces<13:
                 self.piece=random.choice(self.board)
-                self.piece.resize(50, 50) #Make them smaller so all the pieces can be displayed on the window 
+                self.piece.resize(75,75) #Make them smaller so all the pieces can be displayed on the window 
                 image(self.piece,self.piece_x,self.piece_y)
-                self.piece_x+=50
+                self.piece_x+=75
                 self.amount_pieces+=1
         while self.amount_rows<7:
             self.amount_pieces=0
-            self.piece_y+=50
-            self.piece_x=180
+            self.piece_y+=75
+            self.piece_x=12
             row(self,self.amount_pieces,self.piece_x,self.piece_y)
             self.amount_rows+=1
         
