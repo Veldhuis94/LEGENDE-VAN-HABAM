@@ -12,8 +12,9 @@ class Credits():
         self.pages[0].add(self.mainPage)
         def onBackClick(button):
             self.toMainMenu = True
+            print('here1')
         #page items
-        self.backButton = Button(500,600,onClick = onBackClick, txt = 'Terug')
+        self.backButton = Button(500, 600, onClick = onBackClick, txt = 'Terug')
         self.titleText = Text('Credits', 500,100,500,100, txtColor = (255,255,255),txtSize = 50)
         self.bodyText = Text('Ontwikkeld door:\nMahmoud Arab\nHakan Dalama\nAudi van Gog\nBastiaan te Veldhuis\n\nMet dank aan:\nAron van den Eng\nGert-Jan den Heijer\nAstrid van Duuren', 500,520,500,800, txtColor = (255,255,255),txtSize = 32)
         #to add items
@@ -25,6 +26,6 @@ class Credits():
     def draw(self):
         self.pages[0].draw()
     def pages():
-        return None
+        pass
     def phase():
-        return None
+        pass

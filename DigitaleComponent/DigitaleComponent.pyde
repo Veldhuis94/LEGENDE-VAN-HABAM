@@ -126,7 +126,12 @@ def runCredits():
     global curretPhase
     creditsPage.update()
     creditsPage.draw()
-
+    if(creditsPage.toMainMenu == True):
+        creditsPage.toMainMenu = False
+        currentPhase = AppPhase.MAINMENU
+        mainMenu.phase = currentPhase
+        print(currentPhase)
+        mainMenu.draw()
 def runMarket():
     markt.draw()
 def runPlayernames():
