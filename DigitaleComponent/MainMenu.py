@@ -25,7 +25,7 @@ class MainMenu:
             self.phase = AppPhase.PLAYERNAMES
         def onMarketClick(button):
             self.phase = AppPhase.MARKET
-        def onSpelVerloopClick(button):
+        def onSpelverloopClick(button):
             self.phase = AppPhase.SPELVERLOOP
         
         buttonX = 500
@@ -40,7 +40,7 @@ class MainMenu:
         self.page.add(Button(buttonX, buttonY + buttonMarginY * 4, onClick = onCreditsClick, txt="Credits"))
         self.page.add(Button(buttonX, buttonY + buttonMarginY * 5, onClick = onPlayernameClick, txt = 'Spelernamen'))
         self.page.add(Button(buttonX, buttonY + buttonMarginY * 6, onClick = onMarketClick, txt = 'Markt'))
-
+        self.page.add(Button(buttonX, buttonY + buttonMarginY * 7, onClick = onSpelverloopClick, txt = 'Spelverloop'))
     def draw(self):
        self.page.update()
        self.page.draw()

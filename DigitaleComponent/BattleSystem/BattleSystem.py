@@ -20,6 +20,8 @@ class BattleSystem:
 
     tiers = ["Low tier vijand", "Mid tier vijand", "High tier vijand", "Eindbaas"]
 
+    RESPAWN_WAIT_TIME = 3 #in dagen
+
     def getPlayerCount(self):
         return 4
     
@@ -85,6 +87,7 @@ class BattleSystem:
                 if playerPPDict[i] >= 0:
                     self.setPlayerPowerpoints(i, playerPPDict[i] - 1)
                 if self.getPlayerPowerpoints(i) < 0:
+                    self.setPlayerPowerpoints(i, -self.RESPAWN_WAIT_TIME) #De speler mag voor een paar dagen niet meedoen
                     playersToRemove.add(i)
             
             for i in playersToRemove:

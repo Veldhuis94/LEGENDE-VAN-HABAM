@@ -12,6 +12,8 @@ from bord_randomizer.bord_randomizer import Board
 from Playernames.PlayernamesPage import Playernames
 from Credits.CreditsPage import Credits
 from Markt.Markt_class import Markt
+from Spelverloop.Spelverloop import Spelverloop
+from Spelverloop.SpelverloopUI import SpelverloopUI
 
 currentPhase = AppPhase.MAINMENU
 
@@ -23,6 +25,9 @@ playernames = Playernames()
 creditsPage = Credits()
 markt = Markt()
 files = FileResources()
+spelverloop = Spelverloop(tellerSystem)
+spelverloopUI = SpelverloopUI(spelverloop)
+
 #playernames
 p1 = 'Speler 1'
 p2 = 'Speler 2'
@@ -63,6 +68,8 @@ def draw():
         runPlayernames()
     elif(currentPhase == AppPhase.MARKET):
         runMarket()
+    elif(currentPhase == AppPhase.SPELVERLOOP):
+        runSpelverloop()
     else:
         runMainMenu()
     
@@ -149,3 +156,11 @@ def runPlayernames():
         if p4 == '':
             p4 = 'Speler 4'
         print('Namen veranderd in ', p1, p2, p3, p4)
+def runSpelverloop():
+    global currentPhase
+    spelverloopUI.draw()
+    
+    if(spelverloopUI.goBackToMainMenu == True):
+        currentPhase = AppPhase.MAINMENU
+        mainMenu.phase = currentPhase
+        spelverloopUI.goBackToMainMenu = False
