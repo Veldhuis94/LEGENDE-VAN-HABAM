@@ -1,5 +1,5 @@
-from tellers.tellers_class import tellers
-from Utilities.Button import Button
+from tellers_class import tellers
+from Button import Button
 import random
 class Markt:
     def __init__(self):
@@ -57,46 +57,46 @@ class Markt:
     
     def powerup1(self,self1):
 
-        if self.wood>=3 and self.stone>=3 and self.metal>=3 and self.grain>=3:
+        if self.wood>=self.price and self.stone>=self.price and self.metal>=self.price and self.grain>=self.price:
             self.power1+=1
-            self.wood-=3
-            self.stone-=3
-            self.metal-=3
-            self. grain-=3
+            self.wood-=self.price
+            self.stone-=self.price
+            self.metal-=self.price
+            self. grain-=self.price
         else:
             self.enoughmatspp=False
     def powerup2(self,self1):
 
-        if self.wood>=3 and self.stone>=3 and self.metal>=3 and self.grain>=3:
+        if self.wood>=self.price and self.stone>=self.price and self.metal>=self.price and self.grain>=self.price:
             self.power2+=1
-            self.wood-=3
-            self.stone-=3
-            self.metal-=3
-            self.grain-=3
+            self.wood-=self.price
+            self.stone-=self.price
+            self.metal-=self.price
+            self.grain-=self.price
         else:
             self.enoughmatspp=False
 
 
     def powerup3(self,self1):
 
-        if self.wood>=3 and self.stone>=3 and self.metal>=3 and self.grain>=3:
+        if self.wood>=self.price and self.stone>=self.price and self.metal>=self.price and self.grain>=self.price:
             self.power3+=1
-            self.wood-=3
-            self.stone-=3
-            self.metal-=3
-            self.grain-=3
+            self.wood-=self.price
+            self.stone-=self.price
+            self.metal-=self.price
+            self.grain-=self.price
         else:
             self.enoughmatspp=False
 
 
     def powerup4(self,self1):
 
-        if self.wood>=3 and self.stone>=3 and self.metal>=3 and self.grain>=3:
+        if self.wood>=self.price and self.stone>=self.price and self.metal>=self.price and self.grain>=self.price:
             self.power4+=1
-            self.wood-=3
-            self.stone-=3
-            self.metal-=3
-            self.grain-=3
+            self.wood-=self.price
+            self.stone-=self.price
+            self.metal-=self.price
+            self.grain-=self.price
         else:
             self.enoughmatspp=False
     def chosencard(self,self1):
@@ -239,7 +239,6 @@ class Markt:
         self.clicked=False
         self.enoughmats=True
     def NoMatsppError(self,self1):
-        global enoughmatspp
         self.enoughmatspp=True    
             
 
