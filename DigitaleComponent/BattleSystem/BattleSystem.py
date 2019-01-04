@@ -138,6 +138,10 @@ class BattleSystem:
                 button.txt += "<"
         def onNextClick(button):
             if(len(self.selectedPlayers) > 0):
+                if(len(self.selectedPlayers) > 1):
+                    self.headers[self.PHASE_CHOOSE_ENEMY].txt = "Jullie vechten tegen..."
+                else:
+                    self.headers[self.PHASE_CHOOSE_ENEMY].txt = "Je vecht tegen..."
                 self.phase = self.PHASE_CHOOSE_ENEMY
 
         def onEnemyClick(button):
@@ -148,6 +152,9 @@ class BattleSystem:
         def onBackClick(button):
             self.phase = self.PHASE_END
         
+        def onBackToPlayersClick(button):
+            self.phase = self.PHASE_CHOOSE_PLAYER
+
         def onResetClick(button):
             self.fight()
         #---------------------
@@ -155,7 +162,7 @@ class BattleSystem:
         
         self.phase = self.PHASE_CHOOSE_PLAYER
         self.headers = [ #Create labels to display a header on each page
-            Text("Je bent..."       , 500, 200, 1000, 96, txtSize=48, txtColor = (255, 255, 255)),
+            Text("Je bent/Jullie zijn..."       , 500, 200, 1000, 96, txtSize=48, txtColor = (255, 255, 255)),
             Text("Je vecht tegen...", 500, 200, 1000, 96, txtSize=48, txtColor = (255, 255, 255)),
             Text("RESULTAAT"        , 500, 200, 1000, 96, txtSize=48, txtColor = (255, 255, 255))
         ]
@@ -187,7 +194,8 @@ class BattleSystem:
         self.pages[self.PHASE_RESULT].add(self.resetButton)
         self.pages[self.PHASE_RESULT].add(self.backButton)
         
-        
+        self.pages[self.PHASE_CHOOSE_PLAYER].add(self.backButton.copy())
+        self.pages[self.PHASE_CHOOSE_ENEMY].add(self.backButton.copy(onClick = onBackToPlayersClick))
     #Code van hakan
     def randomizer(self):
         x=random.randint(1,6)
