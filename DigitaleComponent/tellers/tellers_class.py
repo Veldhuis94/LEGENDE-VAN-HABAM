@@ -1,3 +1,4 @@
+
 import sys
 sys.path.append('..') #Go one folder up to access the Utilities folder
 from Utilities.Button import Button
@@ -273,7 +274,9 @@ class tellers:
         text(str(self.power4),620,880)
         text('KrachtPunten Bastiaan',615,825)
         if self.buttons2[18].enabled==True:
-            self.buttons[19].enabled=False
+            self.buttons2[19].enabled=False
+        else:
+            self.buttons2[19].enabled=True
         self.action_card()
 
         for button in self.buttons2:
