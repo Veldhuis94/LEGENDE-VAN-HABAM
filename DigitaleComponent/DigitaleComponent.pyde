@@ -6,9 +6,11 @@ from AppPhase import AppPhase
 from Utilities.FileResources import FileResources
 from Utilities.Button import Button
 from Utilities.Text import Text
+from Utilities.TextField import TextField
 from tellers.tellers_class import tellers
 from bord_randomizer.bord_randomizer import Board
-from Credits.CreditsPage import CreditsPage
+from Playernames.PlayernamesPage import Playernames
+
 
 currentPhase = AppPhase.MAINMENU
 
@@ -16,10 +18,14 @@ mainMenu = MainMenu()
 battleSystem = None #Wordt later geïnitialiseerd
 tellerSystem = tellers()
 boardRandomizer = Board()
-creditsPage = CreditsPage()
+playernames = Playernames()
 
 files = FileResources()
-
+#playernames
+p1 = 'Speler 1'
+p2 = 'Speler 2'
+p3 = 'Speler 3'
+p4 = 'Speler 4'
 board_randomizer_firstFrame = True
 
 def setup():
@@ -50,6 +56,8 @@ def draw():
         runBoardRandomizer()
     elif(currentPhase == AppPhase.CREDITS):
         runCredits()
+    elif(currentPhase == AppPhase.PLAYERNAMES):
+        runPlayernames()
     else:
         runMainMenu()
     
@@ -105,3 +113,27 @@ def runCredits():
     global curretPhase
     creditsPage.update()
     creditsPage.draw()
+    
+def runPlayernames():
+    global playernames
+    global currentPhase
+    playernames.update()
+    playernames.draw()
+    if(playernames.toMainMenu == True):
+        currentPhase = AppPhase.MAINMENU
+        mainMenu.phase = currentPhase
+        playernames.toMainMenu = False
+        namelist = playernames.sendBack()
+        p1 = namelist[0]
+        p2 = namelist[1]
+        p3 = namelist[2]
+        p4 = namelist[3]
+        if p1 == '':
+            p1 = 'Speler 1'
+        if p2 == '':
+            p2 = 'Speler 2'
+        if p3 == '':
+            p3 = 'Speler 3'
+        if p4 == '':
+            p4 = 'Speler 4'
+        print('Namen veranderd in ', p1, p2, p3, p4)

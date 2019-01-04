@@ -1,18 +1,18 @@
-#made by Bastiaan
-import sys
-sys.path.append('..')
-from Utilities.Button import Button
-from Utilities.Text import Text
-from Utilities.Page import Page
-from Utilities.Image import Image
+#Made by Audi van Gog en Hakan
 from CreditsPage import CreditsPage
+#import Dobbelstenen
 
 creditsPage = CreditsPage()
-def setup(self):
-    #fullScreen()
-    #self.font=loadFont('BlackChancery-48.vlw')
-    self.font=loadFont('BlackChancery.vlw')
+def setup():
+    size(1000, 726)
 
-    self.img=loadImage('TITLESCREEN2.png')
-    # background(255,165,0)
-    self.img.resize(1000, 726) #resize to the size of the screen
+    
+def draw():
+    global creditsPage
+    clear()
+    
+    if(creditsPage.phase == creditsPage.PHASE_END):
+        c = CreditsPage() #Start het gevechtssysteem opnieuw op
+    else:
+        creditsPage.update()
+        creditsPage.draw()

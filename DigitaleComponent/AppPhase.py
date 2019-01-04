@@ -5,5 +5,5 @@ class AppPhase:
     BOARD_RANDOMIZER = 3
     GAME_MANUAL = 4 #spelregels
     CREDITS = 5
-    
+    PLAYERNAMES = 6
     
