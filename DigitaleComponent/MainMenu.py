@@ -31,9 +31,9 @@ class MainMenu:
         self.page.add(Button(500, 280, onClick = onBattleSystemClick, txt="Gevecht"))
         self.page.add(Button(500, 360, onClick = onBoardRandomizerClick, txt="Bord randomizer"))
         self.page.add(Button(500, 440, onClick = onGameManualClick, txt="Spelregels"))
-        self.page.add(Button(500, 520, onClick = onCreditsClick, txt="Credits"))
+        self.page.add(Button(500, 680, onClick = onCreditsClick, txt="Credits"))
         self.page.add(Button(500, 600, onClick = onPlayernameClick, txt = 'Spelernamen'))
-        self.page.add(Button(500, 680, onClick = onMarketClick, txt = 'Markt'))
+        self.page.add(Button(500, 520, onClick = onMarketClick, txt = 'Markt'))
 
     def draw(self):
        self.page.update()
