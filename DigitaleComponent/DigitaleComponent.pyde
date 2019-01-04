@@ -89,9 +89,11 @@ def runBattleSystem():
     global currentPhase
     
     if(battleSystem == None):
-        battleSystem = BattleSystem()
+        playerNames = [p1, p2, p3, p4] #Stuur de spelernamen naar het gevechtssysteem
+        battleSystem = BattleSystem(playerNames)
         battleSystem.files = files
         battleSystem.tellers = tellerSystem
+        
     if(battleSystem.phase == battleSystem.PHASE_END):
         battleSystem = None
         currentPhase = AppPhase.MAINMENU
@@ -117,6 +119,10 @@ def runCredits():
 def runPlayernames():
     global playernames
     global currentPhase
+    global p1
+    global p2
+    global p3
+    global p4
     playernames.update()
     playernames.draw()
     if(playernames.toMainMenu == True):

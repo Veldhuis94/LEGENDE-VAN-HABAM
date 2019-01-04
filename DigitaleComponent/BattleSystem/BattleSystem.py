@@ -100,7 +100,7 @@ class BattleSystem:
         y = 250
         for playerIndex in playerEyesDict:
             x = 240
-            playerText = Text("Speler "+str(playerIndex+1) + " (" + str(playerPPDict[playerIndex]) + ")", 300, y-8, 200, 32, txtSize=16, txtColor = (255,255,255))
+            playerText = Text(self.playerNames[playerIndex] + " (" + str(playerPPDict[playerIndex]) + ")", 300, y-8, 200, 32, txtSize=16, txtColor = (255,255,255))
             self.resultValuesPage.add(playerText)
             for dice in playerEyesDict[playerIndex]:
                 img = self.files.getImage("dice"+str(dice)).copy()
@@ -117,10 +117,11 @@ class BattleSystem:
             
 
     #BattleSystem constructor
-    def __init__(self):
+    def __init__(self, playerNames):
         self.pages = [Page(), Page(), Page(), Page()]
         self.resultValuesPage = Page()
         self.pages[self.PHASE_RESULT].add(self.resultValuesPage)
+        self.playerNames = playerNames
 
         self.selectedPlayers = set() #Player index 0-3 (player 1 - 4)
         self.enemy = 0 #Enemy tier index 0-3 (low tier, mid tier, high tier, final boss)
@@ -167,7 +168,7 @@ class BattleSystem:
         unitButtonTemplate = Button(200, 500, w=150, h=40)
         #Create buttons for choosing a player
         for i in range(self.getPlayerCount()):
-            button = unitButtonTemplate.copy(x = i * 200 + 200, txt = "Speler: " + str(i+1), txtSize = 24, onClick=onPlayerClick)
+            button = unitButtonTemplate.copy(x = i * 200 + 200, txt = self.playerNames[i], txtSize = 24, onClick=onPlayerClick)
             button.playerIndex = i
             self.pages[self.PHASE_CHOOSE_PLAYER].add(button)
         self.pages[self.PHASE_CHOOSE_PLAYER].add(Button(500, 600, txt="Volgende", w=150, h=40, txtSize=24, onClick=onNextClick))
