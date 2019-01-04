@@ -72,20 +72,30 @@ class BattleSystem:
         enemyTotal = enemyPP + enemyEyes
         
         resultText = ""
-        
-        if(playerTotal > enemyTotal):
-            resultText = "Je hebt gewonnen!"
+        self.backButton.enabled = True
+        if(playerTotal > enemyTotal): #GEWONNEN
+            resultText = ["Je hebt gewonnen!", "Jullie hebben gewonnen!"][len(self.selectedPlayers) > 1]
             self.tellers.win_points += 1
-            self.backButton.enabled = True
-        elif(playerTotal < enemyTotal):
-            resultText = "Je hebt verloren!"
-            self.backButton.enabled = True
-            
+            self.resetButton.enabled = False
+        elif(playerTotal < enemyTotal): #VERLOREN
+            resultText = ["Je hebt verloren!", "Jullie hebben verloren!"][len(self.selectedPlayers) > 1]
+            self.resetButton.enabled = True
+            playersToRemove = set()
             for i in self.selectedPlayers:
-                self.setPlayerPowerpoints(i, self.getPlayerPowerpoints(i) - 1)
-        else:
+                if playerPPDict[i] >= 0:
+                    self.setPlayerPowerpoints(i, playerPPDict[i] - 1)
+                if self.getPlayerPowerpoints(i) < 0:
+                    playersToRemove.add(i)
+            
+            for i in playersToRemove:
+                self.selectedPlayers.remove(i)
+
+            if(len(self.selectedPlayers) == 0):
+                self.backButton.enabled = True
+                self.resetButton.enabled = False
+        else: #GELIJKSPEL
             resultText = "Gelijkspel!"
-            self.backButton.enabled = False
+            self.resetButton.enabled = True
         self.headers[self.PHASE_RESULT].txt = resultText
         
         print("---FIGHT---")
@@ -117,11 +127,12 @@ class BattleSystem:
             
 
     #BattleSystem constructor
-    def __init__(self, playerNames):
+    def __init__(self, playerNames, tellers):
         self.pages = [Page(), Page(), Page(), Page()]
         self.resultValuesPage = Page()
         self.pages[self.PHASE_RESULT].add(self.resultValuesPage)
         self.playerNames = playerNames
+        self.tellers = tellers
 
         self.selectedPlayers = set() #Player index 0-3 (player 1 - 4)
         self.enemy = 0 #Enemy tier index 0-3 (low tier, mid tier, high tier, final boss)
@@ -136,6 +147,8 @@ class BattleSystem:
             else:
                 self.selectedPlayers.add(button.playerIndex)
                 button.txt += "<"
+            self.playerNextButton.enabled = len(self.selectedPlayers) > 0
+
         def onNextClick(button):
             if(len(self.selectedPlayers) > 0):
                 if(len(self.selectedPlayers) > 1):
@@ -177,8 +190,10 @@ class BattleSystem:
         for i in range(self.getPlayerCount()):
             button = unitButtonTemplate.copy(x = i * 200 + 200, txt = self.playerNames[i], txtSize = 24, onClick=onPlayerClick)
             button.playerIndex = i
+            button.enabled = self.getPlayerPowerpoints(i) >= 0
             self.pages[self.PHASE_CHOOSE_PLAYER].add(button)
-        self.pages[self.PHASE_CHOOSE_PLAYER].add(Button(500, 600, txt="Volgende", w=150, h=40, txtSize=24, onClick=onNextClick))
+        self.playerNextButton = Button(500, 600, txt="Volgende", w=150, h=40, txtSize=24, onClick=onNextClick, enabled=False)
+        self.pages[self.PHASE_CHOOSE_PLAYER].add(self.playerNextButton)
 
         #Create buttons for choosing an enemy
         for i in range(self.getEnemyTierCount()):
@@ -194,7 +209,7 @@ class BattleSystem:
         self.pages[self.PHASE_RESULT].add(self.resetButton)
         self.pages[self.PHASE_RESULT].add(self.backButton)
         
-        self.pages[self.PHASE_CHOOSE_PLAYER].add(self.backButton.copy())
+        self.pages[self.PHASE_CHOOSE_PLAYER].add(self.backButton.copy(onClick = onBackClick))
         self.pages[self.PHASE_CHOOSE_ENEMY].add(self.backButton.copy(onClick = onBackToPlayersClick))
     #Code van hakan
     def randomizer(self):

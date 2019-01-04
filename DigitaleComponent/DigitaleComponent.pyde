@@ -92,9 +92,8 @@ def runBattleSystem():
     
     if(battleSystem == None):
         playerNames = [p1, p2, p3, p4] #Stuur de spelernamen naar het gevechtssysteem
-        battleSystem = BattleSystem(playerNames)
+        battleSystem = BattleSystem(playerNames, tellerSystem)
         battleSystem.files = files
-        battleSystem.tellers = tellerSystem
         
     if(battleSystem.phase == battleSystem.PHASE_END):
         battleSystem = None
