@@ -1,5 +1,5 @@
-from tellers_class import tellers
-from Button import Button
+from tellers.tellers_class import tellers
+from Utilities.Button import Button
 import random
 class Markt:
     def __init__(self):
