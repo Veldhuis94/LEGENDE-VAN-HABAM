@@ -11,7 +11,7 @@ from tellers.tellers_class import tellers
 from bord_randomizer.bord_randomizer import Board
 from Playernames.PlayernamesPage import Playernames
 from Credits.CreditsPage import Credits
-
+#from Markt.Markt_class import Markt
 
 currentPhase = AppPhase.MAINMENU
 
@@ -21,7 +21,7 @@ tellerSystem = tellers()
 boardRandomizer = Board()
 playernames = Playernames()
 creditsPage = Credits()
-
+#markt = Markt()
 files = FileResources()
 #playernames
 p1 = 'Speler 1'
@@ -43,6 +43,7 @@ def setup():
     
     tellerSystem.setup()
     boardRandomizer.setup()
+    #markt.setup()
 def draw():
     global board_randomizer_firstFrame
     
@@ -60,6 +61,8 @@ def draw():
         runCredits()
     elif(currentPhase == AppPhase.PLAYERNAMES):
         runPlayernames()
+    elif(currentPhase == AppPhase.MARKET):
+        runMarket()
     else:
         runMainMenu()
     
@@ -116,7 +119,9 @@ def runCredits():
     global curretPhase
     creditsPage.update()
     creditsPage.draw()
-    
+
+def runMarket():
+    pass
 def runPlayernames():
     global playernames
     global currentPhase

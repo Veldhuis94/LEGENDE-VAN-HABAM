@@ -6,4 +6,5 @@ class AppPhase:
     GAME_MANUAL = 4 #spelregels
     CREDITS = 5
     PLAYERNAMES = 6
+    MARKET = 7
     

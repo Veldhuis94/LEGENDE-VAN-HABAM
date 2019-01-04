@@ -23,7 +23,9 @@ class MainMenu:
             self.phase = AppPhase.CREDITS
         def onPlayernameClick(button):
             self.phase = AppPhase.PLAYERNAMES
-            
+        def onMarketClick(button):
+            self.phase = AppPhase.MARKET
+                
         self.page.add(Text("Hoofdmenu", 500, 100, 500, 100, txtColor=(255,255,255), txtSize = 50))
         self.page.add(Button(500, 200, onClick = onInventoryClick, txt="Inventaris"))
         self.page.add(Button(500, 280, onClick = onBattleSystemClick, txt="Gevecht"))
@@ -31,6 +33,7 @@ class MainMenu:
         self.page.add(Button(500, 440, onClick = onGameManualClick, txt="Spelregels"))
         self.page.add(Button(500, 520, onClick = onCreditsClick, txt="Credits"))
         self.page.add(Button(500, 600, onClick = onPlayernameClick, txt = 'Spelernamen'))
+        self.page.add(Button(500, 680, onClick = onMarketClick, txt = 'Markt'))
 
     def draw(self):
        self.page.update()
