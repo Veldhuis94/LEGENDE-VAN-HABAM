@@ -37,11 +37,11 @@ board_randomizer_firstFrame = True
 
 def setup():
     global files
-    size(1000, 726)
+    size(1920, 1000)
     
     for i in range(1, 7):
         files.loadImageFile('dice_'+str(i)+".png", "dice"+str(i))
-    
+    files.loadImageFile('BG.png', "background")
     files.loadFontFile("BlackChancery.vlw", "defaultfont")
     Button.static_defaultFont = files.getFont("defaultfont")
     Text.static_defaultFont = files.getFont("defaultfont")
@@ -56,6 +56,7 @@ def draw():
         clear()
         board_randomizer_firstFrame = True
     
+    background(files.getImage("background"))
     if currentPhase == AppPhase.BATTLESYSTEM:
         runBattleSystem()
     elif(currentPhase == AppPhase.INVENTORY):
