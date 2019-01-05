@@ -15,12 +15,12 @@ class Playernames():
         def onBackClick(button):
             self.toMainMenu = True
         #page items
-        self.backButton = Button(500, 600, onClick = onBackClick, txt = 'Terug')
-        self.titleText = Text("Spelernamen", 500, 100, 500, 100, txtColor=(255,255,255), txtSize = 50)
-        self.p1name = TextField(500,200,)
-        self.p2name = TextField(500,280,)
-        self.p3name = TextField(500,360,)
-        self.p4name = TextField(500,440,)
+        self.backButton = Button(960, 700, onClick = onBackClick, txt = 'Terug')
+        self.titleText = Text("Spelernamen", 960, 150, 960, 150, txtColor=(255,255,255), txtSize = 100)
+        self.p1name = TextField(960,300, placeHolder = 'Speler 1')
+        self.p2name = TextField(960,380, placeHolder = 'Speler 2')
+        self.p3name = TextField(960,460, placeHolder = 'Speler 3')
+        self.p4name = TextField(960,540, placeHolder = 'Speler 4')
         #to add items
         self.pages[0].add(self.backButton)
         self.pages[0].add(self.titleText)

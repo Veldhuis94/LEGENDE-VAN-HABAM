@@ -12,7 +12,6 @@ class Credits():
         self.pages[0].add(self.mainPage)
         def onBackClick(button):
             self.toMainMenu = True
-            print('here1')
         #page items
         self.backButton = Button(960, 840, onClick = onBackClick, txt = 'Terug')
         self.titleText = Text('Credits', 960,150,960,150, txtColor = (255,255,255),txtSize = 100)
