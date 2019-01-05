@@ -197,8 +197,8 @@ class BattleSystem:
                 button.bgColorCurrent = Button.bgColor
             else:
                 self.effecten[player].add(effect)
-                button.bgColor = Button.bgColorHover
-                button.bgColorCurrent = Button.bgColorHover
+                button.bgColor = Button.bgColorPressed
+                button.bgColorCurrent = Button.bgColorPressed
                 
         def onNextClick(button):
             if(len(self.selectedPlayers) > 0):
@@ -242,12 +242,19 @@ class BattleSystem:
         unitButtonTemplate = self.buttonTemplate.copy(y=700)
         effectButtonTemplate = Button(0,unitButtonTemplate.y + 70, w=54, h=54, txtOffsetY=14, radius=50)
 
+        heroImageFileNames = ["held1", "held2", "held3", "held4"]
+        enemyImageFileNames = ["tier1", "tier2", "tier3", "tier4"]
+
         #Create buttons for choosing a player
         for i in range(self.getPlayerCount()): #for each player
             button = unitButtonTemplate.copy(x = i * 400 + 340, txt = self.playerNames[i], onClick=onPlayerClick)
             button.playerIndex = i
             button.enabled = self.getPlayerPowerpoints(i) >= 0
             self.pages[self.PHASE_CHOOSE_PLAYER].add(button)
+
+            #Draw hero image
+            heroImage = Image(files.getImage(heroImageFileNames[i]), button.x, button.y - 270, True)
+            self.pages[self.PHASE_CHOOSE_PLAYER].add(heroImage)
 
             for j in range(len(self.availableEffects)): #for each effect
                 effectButton = effectButtonTemplate.copy(x = button.x + 60 * j - 85, onClick=onEffectClick, playerIndex=i, effect=self.availableEffects[j][0], txt=self.availableEffects[j][1])
@@ -261,13 +268,17 @@ class BattleSystem:
                     icon = Image(self.files.getImage("extraLife"), effectButton.x, effectButton.y, True)
                     self.pages[self.PHASE_CHOOSE_PLAYER].add(icon)
                     
-                
+        
 
         #Create buttons for choosing an enemy
         for i in range(self.getEnemyTierCount()):
             button = unitButtonTemplate.copy(x = i * 400 + 340, txt = self.tiers[i], onClick=onEnemyClick)
             button.enemyIndex = i
             self.pages[self.PHASE_CHOOSE_ENEMY].add(button)
+
+            #Draw enemy image
+            enemyImage = Image(files.getImage(enemyImageFileNames[i]), button.x, button.y - 270, True)
+            self.pages[self.PHASE_CHOOSE_ENEMY].add(enemyImage)
         
         self.playerNextButton = self.buttonTemplate.copy(x=960-300, y=850, txt="Volgende", onClick=onNextClick, enabled=False)
         self.pages[self.PHASE_CHOOSE_PLAYER].add(self.playerNextButton)

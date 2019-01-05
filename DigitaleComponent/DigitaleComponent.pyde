@@ -46,6 +46,15 @@ def setup():
     files.loadImageFile('buitenspel_icon.png', 'buitenspel_icon')
     files.loadImageFile('extraLife.png', 'extraLife')
     
+    files.loadImageFile('held1.png', 'held1')
+    files.loadImageFile('held2.png', 'held2')
+    files.loadImageFile('held3.png', 'held3')
+    files.loadImageFile('held4.png', 'held4')
+    
+    files.loadImageFile('tier1.png', 'tier1')
+    files.loadImageFile('tier2.png', 'tier2')
+    files.loadImageFile('tier3.png', 'tier3')
+    files.loadImageFile('tier4.png', 'tier4')
     Button.static_defaultFont = files.getFont("defaultfont")
     Text.static_defaultFont = files.getFont("defaultfont")
     
