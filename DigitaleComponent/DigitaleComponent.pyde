@@ -55,8 +55,9 @@ def draw():
     if(currentPhase != AppPhase.BOARD_RANDOMIZER):
         clear()
         board_randomizer_firstFrame = True
+        background(files.getImage("background"))
     
-    background(files.getImage("background"))
+    
     if currentPhase == AppPhase.BATTLESYSTEM:
         runBattleSystem()
     elif(currentPhase == AppPhase.INVENTORY):
@@ -79,6 +80,7 @@ def runBoardRandomizer():
     global board_randomizer_firstFrame
     if(board_randomizer_firstFrame):
         clear()
+        background(files.getImage("background"))
         boardRandomizer.draw_board()
         boardRandomizer.drawOnce()
         board_randomizer_firstFrame = False

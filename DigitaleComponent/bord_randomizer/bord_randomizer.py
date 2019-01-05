@@ -61,7 +61,7 @@ class Board:
 
         self.boardSetup()
     def drawOnce(self):
-        background(self.img)
+        #background(self.img)
         textFont(self.font)
     def draw(self):
         self.button.update()
