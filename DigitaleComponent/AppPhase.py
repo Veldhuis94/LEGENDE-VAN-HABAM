@@ -8,4 +8,4 @@ class AppPhase:
     PLAYERNAMES = 6
     MARKET = 7
     SPELVERLOOP = 8
-    
+    END = 9 #Amount of items in AppPhase

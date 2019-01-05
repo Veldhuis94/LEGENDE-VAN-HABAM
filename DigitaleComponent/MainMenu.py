@@ -27,20 +27,21 @@ class MainMenu:
             self.phase = AppPhase.MARKET
         def onSpelverloopClick(button):
             self.phase = AppPhase.SPELVERLOOP
-        
-        buttonX = 500
+            
+        buttonX = 960
         buttonY = 200
-        buttonMarginY = 60
-        
-        self.page.add(Text("Hoofdmenu", 500, 100, 500, 100, txtColor=(255,255,255), txtSize = 50))
-        self.page.add(Button(buttonX, buttonY + buttonMarginY * 0, onClick = onInventoryClick, txt="Inventaris"))
-        self.page.add(Button(buttonX, buttonY + buttonMarginY * 1, onClick = onBattleSystemClick, txt="Gevecht"))
-        self.page.add(Button(buttonX, buttonY + buttonMarginY * 2, onClick = onBoardRandomizerClick, txt="Bord randomizer"))
-        self.page.add(Button(buttonX, buttonY + buttonMarginY * 3, onClick = onGameManualClick, txt="Spelregels"))
-        self.page.add(Button(buttonX, buttonY + buttonMarginY * 4, onClick = onCreditsClick, txt="Credits"))
-        self.page.add(Button(buttonX, buttonY + buttonMarginY * 5, onClick = onPlayernameClick, txt = 'Spelernamen'))
-        self.page.add(Button(buttonX, buttonY + buttonMarginY * 6, onClick = onMarketClick, txt = 'Markt'))
-        self.page.add(Button(buttonX, buttonY + buttonMarginY * 7, onClick = onSpelverloopClick, txt = 'Spelverloop'))
+        buttonMarginY = 70
+        buttonTemplate = Button(buttonX, buttonY, w=260, radius=3)
+            
+        self.page.add(Text("Hoofdmenu", 960, 100, 500, 100, txtColor=(255,255,255), txtSize = 50))
+        self.page.add(buttonTemplate.copy(y=buttonY + buttonMarginY * 0, onClick = onInventoryClick, txt="Inventaris"))
+        self.page.add(buttonTemplate.copy(y=buttonY + buttonMarginY * 1, onClick = onBattleSystemClick, txt="Gevecht"))
+        self.page.add(buttonTemplate.copy(y=buttonY + buttonMarginY * 2, onClick = onBoardRandomizerClick, txt="Bord randomizer"))
+        self.page.add(buttonTemplate.copy(y=buttonY + buttonMarginY * 3, onClick = onGameManualClick, txt="Spelregels"))
+        self.page.add(buttonTemplate.copy(y=buttonY + buttonMarginY * 4, onClick = onCreditsClick, txt="Credits"))
+        self.page.add(buttonTemplate.copy(y=buttonY + buttonMarginY * 5, onClick = onPlayernameClick, txt = 'Spelernamen'))
+        self.page.add(buttonTemplate.copy(y=buttonY + buttonMarginY * 6, onClick = onMarketClick, txt = 'Markt'))
+        self.page.add(buttonTemplate.copy(y=buttonY + buttonMarginY * 7, onClick = onSpelverloopClick, txt = 'Spelverloop'))
     def draw(self):
        self.page.update()
        self.page.draw()
