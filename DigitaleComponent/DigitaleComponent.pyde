@@ -43,6 +43,9 @@ def setup():
         files.loadImageFile('dice_'+str(i)+".png", "dice"+str(i))
     files.loadImageFile('BG.png', "background")
     files.loadFontFile("BlackChancery.vlw", "defaultfont")
+    files.loadImageFile('buitenspel_icon.png', 'buitenspel_icon')
+    files.loadImageFile('extraLife.png', 'extraLife')
+    
     Button.static_defaultFont = files.getFont("defaultfont")
     Text.static_defaultFont = files.getFont("defaultfont")
     
@@ -105,8 +108,7 @@ def runBattleSystem():
     
     if(battleSystem == None):
         playerNames = [p1, p2, p3, p4] #Stuur de spelernamen naar het gevechtssysteem
-        battleSystem = BattleSystem(playerNames, tellerSystem)
-        battleSystem.files = files
+        battleSystem = BattleSystem(playerNames, tellerSystem, files)
         
     if(battleSystem.phase == battleSystem.PHASE_END):
         battleSystem = None

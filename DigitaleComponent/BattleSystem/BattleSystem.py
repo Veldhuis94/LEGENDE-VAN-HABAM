@@ -159,18 +159,19 @@ class BattleSystem:
             
 
     #BattleSystem constructor
-    def __init__(self, playerNames, tellers):
+    def __init__(self, playerNames, tellers, files):
         self.pages = [Page(), Page(), Page(), Page()]
         self.resultValuesPage = Page()
         self.pages[self.PHASE_RESULT].add(self.resultValuesPage)
         self.playerNames = playerNames
         self.tellers = tellers
+        self.files = files
 
         self.selectedPlayers = set() #Player index 0-3 (player 1 - 4)
         self.enemy = 0 #Enemy tier index 0-3 (low tier, mid tier, high tier, final boss)
 
         self.effecten = [set(), set(), set(), set()] #Effecten van verkregen effectkaarten van elk speler
-        self.availableEffects = [[self.EFFECT_ADD_2PP, "(1)","(1) +2 krachtpunten"], [self.EFFECT_MUL_2PP, "(2)" ,"(2) x2 krachtpunten"], [self.EFFECT_OUT_2DAYS, "(4)","(4) 2 dagen buitenspel"], [self.EFFECT_EXTRA_TRY, "(14)","(14) extra poging"]]
+        self.availableEffects = [[self.EFFECT_ADD_2PP, "+2k"], [self.EFFECT_MUL_2PP, "x2k"], [self.EFFECT_OUT_2DAYS, ""], [self.EFFECT_EXTRA_TRY, ""]]
         #----BUTTON EVENTS-----
         def onPlayerClick(button):
             self.player = button.playerIndex
@@ -239,7 +240,7 @@ class BattleSystem:
         
         self.buttonTemplate = Button(0,0, w=360, h=50, txtSize = 40, radius = 3)
         unitButtonTemplate = self.buttonTemplate.copy(y=700)
-        effectButtonTemplate = Button(0,unitButtonTemplate.y + 70, w=50, h=50, txtOffsetY=10, radius=50)
+        effectButtonTemplate = Button(0,unitButtonTemplate.y + 70, w=54, h=54, txtOffsetY=14, radius=50)
 
         #Create buttons for choosing a player
         for i in range(self.getPlayerCount()): #for each player
@@ -252,6 +253,15 @@ class BattleSystem:
                 effectButton = effectButtonTemplate.copy(x = button.x + 60 * j - 85, onClick=onEffectClick, playerIndex=i, effect=self.availableEffects[j][0], txt=self.availableEffects[j][1])
                 effectButton.enabled = self.getPlayerPowerpoints(i) >= 0
                 self.pages[self.PHASE_CHOOSE_PLAYER].add(effectButton)
+
+                if(self.availableEffects[j][0] == self.EFFECT_OUT_2DAYS):
+                    icon = Image(self.files.getImage("buitenspel_icon"), effectButton.x, effectButton.y, True)
+                    self.pages[self.PHASE_CHOOSE_PLAYER].add(icon)
+                if(self.availableEffects[j][0] == self.EFFECT_EXTRA_TRY):
+                    icon = Image(self.files.getImage("extraLife"), effectButton.x, effectButton.y, True)
+                    self.pages[self.PHASE_CHOOSE_PLAYER].add(icon)
+                    
+                
 
         #Create buttons for choosing an enemy
         for i in range(self.getEnemyTierCount()):
