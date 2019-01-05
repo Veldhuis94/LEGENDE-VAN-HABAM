@@ -132,8 +132,7 @@ def runCredits():
     if(creditsPage.toMainMenu == True):
         currentPhase = AppPhase.MAINMENU
         mainMenu.phase = currentPhase
-        creditsPage.toMainMenu == False
-        print(currentPhase, mainMenu.phase)
+        creditsPage.toMainMenu = False
 
 def runMarket():
     markt.draw()

@@ -12,11 +12,10 @@ class Credits():
         self.pages[0].add(self.mainPage)
         def onBackClick(button):
             self.toMainMenu = True
-            print('here1')
         #page items
-        self.backButton = Button(500, 600, onClick = onBackClick, txt = 'Terug')
-        self.titleText = Text('Credits', 500,100,500,100, txtColor = (255,255,255),txtSize = 50)
-        self.bodyText = Text('Ontwikkeld door:\nMahmoud Arab\nHakan Dalama\nAudi van Gog\nBastiaan te Veldhuis\n\nMet dank aan:\nAron van den Eng\nGert-Jan den Heijer\nAstrid van Duuren', 500,520,500,800, txtColor = (255,255,255),txtSize = 32)
+        self.backButton = Button(960, 840, onClick = onBackClick, txt = 'Terug')
+        self.titleText = Text('Credits', 960,150,960,150, txtColor = (255,255,255),txtSize = 100)
+        self.bodyText = Text('de Legende van Habam -Digital Companion-\n(c) 2019 INF1C Groep 1\n\nOntwikkeld door:\nMahmoud Arab\nHakan Dalama\nAudi van Gog\nBastiaan te Veldhuis\n\nMet dank aan:\nAron van den Eng\nGert-Jan den Heijer\nAstrid van Duuren\n\nGemaakt met Python in Processing 3', 960,500,960,600, txtColor = (255,255,255),txtSize = 32)
         #to add items
         self.pages[0].add(self.backButton)
         self.pages[0].add(self.titleText)
