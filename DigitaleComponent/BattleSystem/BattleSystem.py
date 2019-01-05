@@ -112,21 +112,19 @@ class BattleSystem:
         
         y = 250
         for playerIndex in playerEyesDict:
-            x = 240
-            playerText = Text(self.playerNames[playerIndex] + " (" + str(playerPPDict[playerIndex]) + ")", 300, y-8, 200, 32, txtSize=16, txtColor = (255,255,255))
+            x = 960-500
+            playerText = Text(self.playerNames[playerIndex] + " (" + str(playerPPDict[playerIndex]) + ")", x+100, y, 400, 64, txtSize=24, txtColor = (255,255,255))
             self.resultValuesPage.add(playerText)
             for dice in playerEyesDict[playerIndex]:
-                img = self.files.getImage("dice"+str(dice)).copy()
-                img.resize(50, 50)
+                img = self.files.getImage("dice"+str(dice))
                 self.resultValuesPage.add(Image(img, x, y))
-                x += 60
-            y += 80
+                x += 100
+            y += 132
         
         for i in range(len(enemyDices)):
-            img = self.files.getImage("dice"+str(enemyDices[i])).copy()
-            img.resize(50, 50)
-            self.resultValuesPage.add(Image(img, 580 + 60 * i, 250))
-        self.resultValuesPage.add(Text(self.tiers[self.enemy] + " (" + str(enemyPP) + ")", 640, 250-8, 200, 32, txtSize=16, txtColor = (255,255,255)))
+            img = self.files.getImage("dice"+str(enemyDices[i]))
+            self.resultValuesPage.add(Image(img, 960 + 400 + 100 * i, 250))
+        self.resultValuesPage.add(Text(self.tiers[self.enemy] + " (" + str(enemyPP) + ")", 960 + 400 + 100, 250, 400, 64, txtSize=24, txtColor = (255,255,255)))
             
 
     #BattleSystem constructor
@@ -140,6 +138,7 @@ class BattleSystem:
         self.selectedPlayers = set() #Player index 0-3 (player 1 - 4)
         self.enemy = 0 #Enemy tier index 0-3 (low tier, mid tier, high tier, final boss)
 
+        
         #----BUTTON EVENTS-----
         def onPlayerClick(button):
             self.player = button.playerIndex
@@ -177,10 +176,11 @@ class BattleSystem:
         
         
         self.phase = self.PHASE_CHOOSE_PLAYER
+        headerTemplate = Text("TEXT", 960, 160, 1200, 140, txtSize=70, txtColor = (255,255,255))
         self.headers = [ #Create labels to display a header on each page
-            Text("Je bent/Jullie zijn..."       , 500, 200, 1000, 96, txtSize=48, txtColor = (255, 255, 255)),
-            Text("Je vecht tegen...", 500, 200, 1000, 96, txtSize=48, txtColor = (255, 255, 255)),
-            Text("RESULTAAT"        , 500, 200, 1000, 96, txtSize=48, txtColor = (255, 255, 255))
+            headerTemplate.copy(txt="Je bent/Jullie zijn..."),
+            headerTemplate.copy(txt="Je vecht tegen..."),
+            headerTemplate.copy(txt="RESULTAAT")
         ]
         
         #Add the headers to the pages to update and display them
@@ -188,25 +188,28 @@ class BattleSystem:
         self.pages[self.PHASE_CHOOSE_ENEMY].add(self.headers[1])
         self.pages[self.PHASE_RESULT].add(self.headers[2])
         
-        unitButtonTemplate = Button(200, 500, w=150, h=40)
+        self.buttonTemplate = Button(0,0, w=360, h=50, txtSize = 40, radius = 3)
+        unitButtonTemplate = self.buttonTemplate.copy(y=700)
         #Create buttons for choosing a player
         for i in range(self.getPlayerCount()):
-            button = unitButtonTemplate.copy(x = i * 200 + 200, txt = self.playerNames[i], txtSize = 24, onClick=onPlayerClick)
+            button = unitButtonTemplate.copy(x = i * 400 + 340, txt = self.playerNames[i], onClick=onPlayerClick)
             button.playerIndex = i
             button.enabled = self.getPlayerPowerpoints(i) >= 0
             self.pages[self.PHASE_CHOOSE_PLAYER].add(button)
-        self.playerNextButton = Button(500, 600, txt="Volgende", w=150, h=40, txtSize=24, onClick=onNextClick, enabled=False)
-        self.pages[self.PHASE_CHOOSE_PLAYER].add(self.playerNextButton)
+        
 
         #Create buttons for choosing an enemy
         for i in range(self.getEnemyTierCount()):
-            button = unitButtonTemplate.copy(x = i * 200 + 200, txt = self.tiers[i], txtSize = 20, onClick=onEnemyClick)
+            button = unitButtonTemplate.copy(x = i * 400 + 340, txt = self.tiers[i], onClick=onEnemyClick)
             button.enemyIndex = i
             self.pages[self.PHASE_CHOOSE_ENEMY].add(button)
         
+        self.playerNextButton = self.buttonTemplate.copy(x=960-300, y=800, txt="Volgende", onClick=onNextClick, enabled=False)
+        self.pages[self.PHASE_CHOOSE_PLAYER].add(self.playerNextButton)
+
         #Reset button: fight again, Backbutton: resets the battlesystem (for now)
-        self.resetButton = Button(300, 600, w=150, h=40, txt = "Vecht opnieuw!", txtSize = 20, onClick=onResetClick)
-        self.backButton = Button(700, 600, w=150, h=40, txt = "Terug", txtSize = 20, onClick=onBackClick)
+        self.resetButton = self.buttonTemplate.copy(x=960-300, y=800, txt = "Vecht opnieuw!", onClick=onResetClick)
+        self.backButton = self.buttonTemplate.copy(x=960+300, y=800, txt = "Terug", onClick=onBackClick)
         
         #Add those buttons to the result page
         self.pages[self.PHASE_RESULT].add(self.resetButton)
