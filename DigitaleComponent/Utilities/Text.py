@@ -11,7 +11,7 @@ import copy
 class Text:
     txt = "text"
     txtSize = 32
-    txtColor = (50, 50, 50, 255)
+    txtColor = (255,255,255,255)
     txtFont = None
     static_defaultFont = None
 

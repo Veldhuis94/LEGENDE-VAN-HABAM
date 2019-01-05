@@ -14,18 +14,18 @@ class Button:
     txtSize = 32 #font size
     txtOffsetX = 0
     txtOffsetY = 5
-    txtColor = (255, 255, 50) #Color of the text
+    txtColor = (255, 254, 50) #Color of the text
     txtColorHover = None
     txtColorPressed = None
-    txtColorDisabled = None
+    txtColorDisabled = (100, 100, 100)
     txtFont = None
     static_defaultFont = None
 
     #[Background]
-    bgColor = (20, 20, 255) #default background color
-    bgColorHover = (20, 255, 20) #background color when the user hovers on the button
-    bgColorPressed = (255, 20, 20) #background color when the user clicks on the button
-    bgColorDisabled = (100, 100, 100)
+    bgColor = (255, 148, 0) #default background color
+    bgColorHover = (255, 188, 96) #background color when the user hovers on the button
+    bgColorPressed = (96, 183, 255) #background color when the user clicks on the button
+    bgColorDisabled = (155, 77, 4)
     radius = 5 #rounded cornors
     
     #[Button events]
