@@ -18,9 +18,15 @@ class BattleSystem:
     PHASE_RESULT = 2
     PHASE_END = 3
 
+    EFFECT_ADD_2PP = 1
+    EFFECT_MUL_2PP = 2
+    EFFECT_OUT_2DAYS = 4
+    EFFECT_EXTRA_TRY = 14
+
     tiers = ["Low tier vijand", "Mid tier vijand", "High tier vijand", "Eindbaas"]
 
     RESPAWN_WAIT_TIME = 3 #in dagen
+    RESPAWN_LESS_WAIT_TIME = 2
 
     def getPlayerCount(self):
         return 4
@@ -56,13 +62,30 @@ class BattleSystem:
         MAX_DICES_PLAYER = 2
         MAX_DICES_ENEMY = 2
 
+        playerPPDictOrig = dict() #powerpoints without effects
         playerPPDict = dict() #amount of powerpoints of each player [int per key]
         playerEyesDict = dict() #eyes of thrown dices per player [int array per key]
         playerTotalDict = dict() #Powerpoints + thrown eyes per player
         playerTotal = 0 #Sum of playerTotalDict
 
+        playerPPStrings = ["", "", "", ""]
+
         for i in self.selectedPlayers:
-            playerPPDict[i] = self.getPlayerPowerpoints(i)
+            playerPPDictOrig[i] = self.getPlayerPowerpoints(i)
+            playerEffects = self.effecten[i]
+            if self.EFFECT_MUL_2PP in playerEffects and self.EFFECT_ADD_2PP in playerEffects:
+                playerPPDict[i] = playerPPDictOrig[i] * 2 + 2
+                playerPPStrings[i] = str(playerPPDictOrig[i]) + "k x 2 + 2 = " + str(playerPPDict[i]) + "k"
+            elif self.EFFECT_MUL_2PP in playerEffects:
+                playerPPDict[i] = playerPPDictOrig[i] * 2
+                playerPPStrings[i] = str(playerPPDictOrig[i]) + "k x 2 = " + str(playerPPDict[i]) + "k"
+            elif self.EFFECT_ADD_2PP in playerEffects:
+                playerPPDict[i] = playerPPDictOrig[i] + 2
+                playerPPStrings[i] = str(playerPPDictOrig[i]) + "k + 2 = " + str(playerPPDict[i]) + "k"
+            else:
+                playerPPDict[i] = playerPPDictOrig[i]
+                playerPPStrings[i] = str(playerPPDict[i]) + "k"
+            
             playerEyesDict[i] = [random.randint(1, 6) for _ in range(MAX_DICES_PLAYER)]
             playerTotalDict[i] = playerPPDict[i] + max(playerEyesDict[i]) #Get the highest thrown die + player powerpoints
             playerTotal += playerTotalDict[i]
@@ -84,11 +107,19 @@ class BattleSystem:
             self.resetButton.enabled = True
             playersToRemove = set()
             for i in self.selectedPlayers:
-                if playerPPDict[i] >= 0:
-                    self.setPlayerPowerpoints(i, playerPPDict[i] - 1)
+                if self.getPlayerPowerpoints(i) >= 0:
+                    self.setPlayerPowerpoints(i, self.getPlayerPowerpoints(i) - 1)
                 if self.getPlayerPowerpoints(i) < 0:
-                    self.setPlayerPowerpoints(i, -self.RESPAWN_WAIT_TIME) #De speler mag voor een paar dagen niet meedoen
-                    playersToRemove.add(i)
+                    if(self.EFFECT_EXTRA_TRY in self.effecten[i]):
+                        self.effecten[i].remove(self.EFFECT_EXTRA_TRY) #Je mag het maar 1 keer gebruiken
+                        self.setPlayerPowerpoints(i, 0)
+                    else:
+                        playerEffects = self.effecten[i]
+                        if(self.EFFECT_OUT_2DAYS in playerEffects):
+                            self.setPlayerPowerpoints(i, -self.RESPAWN_LESS_WAIT_TIME) #Met effectkaart 14 hoeft de speler maar 2 dagen te wachten
+                        else:
+                            self.setPlayerPowerpoints(i, -self.RESPAWN_WAIT_TIME) #De speler mag voor een paar dagen niet meedoen
+                        playersToRemove.add(i)
             
             for i in playersToRemove:
                 self.selectedPlayers.remove(i)
@@ -113,7 +144,7 @@ class BattleSystem:
         y = 250
         for playerIndex in playerEyesDict:
             x = 960-500
-            playerText = Text(self.playerNames[playerIndex] + " (" + str(playerPPDict[playerIndex]) + ")", x+100, y, 400, 64, txtSize=24, txtColor = (255,255,255))
+            playerText = Text(self.playerNames[playerIndex] + " (" + playerPPStrings[playerIndex] + ")", x+100, y, 400, 64, txtSize=24, txtColor = (255,255,255))
             self.resultValuesPage.add(playerText)
             for dice in playerEyesDict[playerIndex]:
                 img = self.files.getImage("dice"+str(dice))
@@ -138,19 +169,36 @@ class BattleSystem:
         self.selectedPlayers = set() #Player index 0-3 (player 1 - 4)
         self.enemy = 0 #Enemy tier index 0-3 (low tier, mid tier, high tier, final boss)
 
-        
+        self.effecten = [set(), set(), set(), set()] #Effecten van verkregen effectkaarten van elk speler
+        self.availableEffects = [[self.EFFECT_ADD_2PP, "(1)","(1) +2 krachtpunten"], [self.EFFECT_MUL_2PP, "(2)" ,"(2) x2 krachtpunten"], [self.EFFECT_OUT_2DAYS, "(4)","(4) 2 dagen buitenspel"], [self.EFFECT_EXTRA_TRY, "(14)","(14) extra poging"]]
         #----BUTTON EVENTS-----
         def onPlayerClick(button):
             self.player = button.playerIndex
 
             if(button.playerIndex in self.selectedPlayers):
                 self.selectedPlayers.remove(button.playerIndex)
-                button.txt = button.txt[:-1]
+                button.bgColor = Button.bgColor
+                button.bgColorCurrent = Button.bgColor
             else:
                 self.selectedPlayers.add(button.playerIndex)
-                button.txt += "<"
+                button.bgColor = Button.bgColorHover
+                button.bgColorCurrent = Button.bgColorHover
+                
             self.playerNextButton.enabled = len(self.selectedPlayers) > 0
+        
+        def onEffectClick(button):
+            player = button.playerIndex
+            effect = button.effect
 
+            if(effect in self.effecten[player]):
+                self.effecten[player].remove(effect)
+                button.bgColor = Button.bgColor
+                button.bgColorCurrent = Button.bgColor
+            else:
+                self.effecten[player].add(effect)
+                button.bgColor = Button.bgColorHover
+                button.bgColorCurrent = Button.bgColorHover
+                
         def onNextClick(button):
             if(len(self.selectedPlayers) > 0):
                 if(len(self.selectedPlayers) > 1):
@@ -158,6 +206,7 @@ class BattleSystem:
                 else:
                     self.headers[self.PHASE_CHOOSE_ENEMY].txt = "Je vecht tegen..."
                 self.phase = self.PHASE_CHOOSE_ENEMY
+                print("effecten:",self.effecten)
 
         def onEnemyClick(button):
             self.phase = self.PHASE_RESULT
@@ -190,13 +239,19 @@ class BattleSystem:
         
         self.buttonTemplate = Button(0,0, w=360, h=50, txtSize = 40, radius = 3)
         unitButtonTemplate = self.buttonTemplate.copy(y=700)
+        effectButtonTemplate = Button(0,unitButtonTemplate.y + 70, w=50, h=50, txtOffsetY=10, radius=50)
+
         #Create buttons for choosing a player
-        for i in range(self.getPlayerCount()):
+        for i in range(self.getPlayerCount()): #for each player
             button = unitButtonTemplate.copy(x = i * 400 + 340, txt = self.playerNames[i], onClick=onPlayerClick)
             button.playerIndex = i
             button.enabled = self.getPlayerPowerpoints(i) >= 0
             self.pages[self.PHASE_CHOOSE_PLAYER].add(button)
-        
+
+            for j in range(len(self.availableEffects)): #for each effect
+                effectButton = effectButtonTemplate.copy(x = button.x + 60 * j - 85, onClick=onEffectClick, playerIndex=i, effect=self.availableEffects[j][0], txt=self.availableEffects[j][1])
+                effectButton.enabled = self.getPlayerPowerpoints(i) >= 0
+                self.pages[self.PHASE_CHOOSE_PLAYER].add(effectButton)
 
         #Create buttons for choosing an enemy
         for i in range(self.getEnemyTierCount()):
@@ -204,12 +259,12 @@ class BattleSystem:
             button.enemyIndex = i
             self.pages[self.PHASE_CHOOSE_ENEMY].add(button)
         
-        self.playerNextButton = self.buttonTemplate.copy(x=960-300, y=800, txt="Volgende", onClick=onNextClick, enabled=False)
+        self.playerNextButton = self.buttonTemplate.copy(x=960-300, y=850, txt="Volgende", onClick=onNextClick, enabled=False)
         self.pages[self.PHASE_CHOOSE_PLAYER].add(self.playerNextButton)
 
         #Reset button: fight again, Backbutton: resets the battlesystem (for now)
-        self.resetButton = self.buttonTemplate.copy(x=960-300, y=800, txt = "Vecht opnieuw!", onClick=onResetClick)
-        self.backButton = self.buttonTemplate.copy(x=960+300, y=800, txt = "Terug", onClick=onBackClick)
+        self.resetButton = self.buttonTemplate.copy(x=960-300, y=850, txt = "Vecht opnieuw!", onClick=onResetClick)
+        self.backButton = self.buttonTemplate.copy(x=960+300, y=850, txt = "Terug", onClick=onBackClick)
         
         #Add those buttons to the result page
         self.pages[self.PHASE_RESULT].add(self.resetButton)
