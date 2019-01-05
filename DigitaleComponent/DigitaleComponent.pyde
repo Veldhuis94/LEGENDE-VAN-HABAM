@@ -123,21 +123,21 @@ def runMainMenu():
         
 def runCredits():
     global creditsPage
-    global curretPhase
+    global currentPhase
     creditsPage.update()
     creditsPage.draw()
     if(creditsPage.toMainMenu == True):
-        creditsPage.toMainMenu = False
         currentPhase = AppPhase.MAINMENU
         mainMenu.phase = currentPhase
-        print(currentPhase)
-        mainMenu.draw()
+        creditsPage.toMainMenu == False
+        print(currentPhase, mainMenu.phase)
+
 def runMarket():
     markt.draw()
 def runPlayernames():
     global playernames
     global currentPhase
-    global p1
+    global p1  
     global p2
     global p3
     global p4

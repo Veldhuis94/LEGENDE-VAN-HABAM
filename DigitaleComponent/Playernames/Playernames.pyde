@@ -1,7 +1,7 @@
 #gemaakt door Bastiaan
 playernames = Playernames()
 def setup():
-    size(1000, 726)
+    size(1920, 1000)
     
 def draw():
     global playernames
