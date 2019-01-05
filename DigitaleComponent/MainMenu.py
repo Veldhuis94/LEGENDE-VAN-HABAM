@@ -28,19 +28,19 @@ class MainMenu:
         def onSpelverloopClick(button):
             self.phase = AppPhase.SPELVERLOOP
         
-        buttonX = 500
-        buttonY = 200
+        buttonX = 960
+        buttonY = 300
         buttonMarginY = 60
         
-        self.page.add(Text("Hoofdmenu", 500, 100, 500, 100, txtColor=(255,255,255), txtSize = 50))
+        self.page.add(Text("Hoofdmenu", 960, 150, 960, 150, txtColor=(255,255,255), txtSize = 100))
         self.page.add(Button(buttonX, buttonY + buttonMarginY * 0, onClick = onInventoryClick, txt="Inventaris"))
-        self.page.add(Button(buttonX, buttonY + buttonMarginY * 1, onClick = onBattleSystemClick, txt="Gevecht"))
-        self.page.add(Button(buttonX, buttonY + buttonMarginY * 2, onClick = onBoardRandomizerClick, txt="Bord randomizer"))
-        self.page.add(Button(buttonX, buttonY + buttonMarginY * 3, onClick = onGameManualClick, txt="Spelregels"))
-        self.page.add(Button(buttonX, buttonY + buttonMarginY * 4, onClick = onCreditsClick, txt="Credits"))
-        self.page.add(Button(buttonX, buttonY + buttonMarginY * 5, onClick = onPlayernameClick, txt = 'Spelernamen'))
-        self.page.add(Button(buttonX, buttonY + buttonMarginY * 6, onClick = onMarketClick, txt = 'Markt'))
-        self.page.add(Button(buttonX, buttonY + buttonMarginY * 7, onClick = onSpelverloopClick, txt = 'Spelverloop'))
+        self.page.add(Button(buttonX, buttonY + buttonMarginY * 2, onClick = onBattleSystemClick, txt="Gevecht"))
+        self.page.add(Button(buttonX, buttonY + buttonMarginY * 3, onClick = onBoardRandomizerClick, txt="Bord randomizer"))
+        self.page.add(Button(buttonX, buttonY + buttonMarginY * 4, onClick = onGameManualClick, txt="Spelregels"))
+        self.page.add(Button(buttonX, buttonY + buttonMarginY * 7, onClick = onCreditsClick, txt="Credits"))
+        self.page.add(Button(buttonX, buttonY + buttonMarginY * 6, onClick = onPlayernameClick, txt = 'Spelernamen'))
+        self.page.add(Button(buttonX, buttonY + buttonMarginY * 5, onClick = onMarketClick, txt = 'Markt'))
+        self.page.add(Button(buttonX, buttonY + buttonMarginY * 1, onClick = onSpelverloopClick, txt = 'Spelverloop'))
     def draw(self):
        self.page.update()
        self.page.draw()
