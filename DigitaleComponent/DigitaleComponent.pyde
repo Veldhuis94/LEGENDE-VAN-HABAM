@@ -14,6 +14,7 @@ from Credits.CreditsPage import Credits
 from Markt.Markt_class import Markt
 from Spelverloop.Spelverloop import Spelverloop
 from Spelverloop.SpelverloopUI import SpelverloopUI
+from Rulebook.RulebookPage import Rulebook
 
 currentPhase = AppPhase.MAINMENU
 
@@ -27,6 +28,7 @@ markt = Markt()
 files = FileResources()
 spelverloop = Spelverloop(tellerSystem)
 spelverloopUI = SpelverloopUI(spelverloop)
+rulebook = Rulebook()
 
 #playernames
 p1 = 'Speler 1'
@@ -84,6 +86,8 @@ def draw():
         runMarket()
     elif(currentPhase == AppPhase.SPELVERLOOP):
         runSpelverloop()
+    elif(currentPhase == AppPhase.RULEBOOK):
+        runRulebook()
     else:
         runMainMenu()
     
@@ -146,7 +150,14 @@ def runCredits():
         creditsPage.toMainMenu = False
 
 def runMarket():
+    global markt
+    global currentPhase
     markt.draw()
+    if(markt.toMainMenu == True):
+        currentPhase = AppPhase.MAINMENU
+        mainMenu.phase = currentPhase
+        markt.toMainMenu = False
+        print('here')
 def runPlayernames():
     global playernames
     global currentPhase
@@ -182,3 +193,13 @@ def runSpelverloop():
         currentPhase = AppPhase.MAINMENU
         mainMenu.phase = currentPhase
         spelverloopUI.goBackToMainMenu = False
+def runRulebook():
+    global currentPhase
+    global rulebook
+    rulebook.update()
+    rulebook.draw()
+    if(rulebook.toMainMenu == True):
+        currentPhase = AppPhase.MAINMENU
+        mainMenu.phase = currentPhase
+        rulebook.toMainMenu = False
+        rulebook.currentPage = 0

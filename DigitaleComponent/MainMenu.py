@@ -18,7 +18,7 @@ class MainMenu:
         def onBoardRandomizerClick(button):
             self.phase = AppPhase.BOARD_RANDOMIZER
         def onGameManualClick(button):
-            self.phase = AppPhase.GAME_MANUAL
+            self.phase = AppPhase.RULEBOOK
         def onCreditsClick(button):
             self.phase = AppPhase.CREDITS
         def onPlayernameClick(button):
@@ -29,11 +29,11 @@ class MainMenu:
             self.phase = AppPhase.SPELVERLOOP
             
         buttonX = 960
-        buttonY = 200
+        buttonY = 250
         buttonMarginY = 70
         buttonTemplate = Button(buttonX, buttonY, w=260, radius=3)
             
-        self.page.add(Text("Hoofdmenu", 960, 100, 500, 100, txtColor=(255,255,255), txtSize = 50))
+        self.page.add(Text("Hoofdmenu", 960, 150, 500, 100, txtColor=(255,255,255), txtSize = 100))
         self.page.add(buttonTemplate.copy(y=buttonY + buttonMarginY * 0, onClick = onInventoryClick, txt="Inventaris"))
         self.page.add(buttonTemplate.copy(y=buttonY + buttonMarginY * 1, onClick = onBattleSystemClick, txt="Gevecht"))
         self.page.add(buttonTemplate.copy(y=buttonY + buttonMarginY * 2, onClick = onBoardRandomizerClick, txt="Bord randomizer"))

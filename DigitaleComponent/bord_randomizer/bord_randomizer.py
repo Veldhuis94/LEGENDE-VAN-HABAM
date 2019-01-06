@@ -12,7 +12,7 @@ class Board:
         def onBackButtonClick(button):
             self.goToMainMenu = True
         self.goToMainMenu = False
-        self.backButton = Button(700, 600, txt="Back", onClick=onBackButtonClick)
+        self.backButton = Button(700, 600, txt="Terug", onClick=onBackButtonClick)
     def boardSetup(self):
         self.board=[]
         self.wood=loadImage('Hout.jpg')

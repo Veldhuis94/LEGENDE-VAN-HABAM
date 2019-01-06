@@ -6,6 +6,7 @@ from Utilities.Button import Button
 import random
 class Markt:
     def __init__(self):
+        self.toMainMenu = True
         self.tellers=tellers()
         self.showcard=False
         self.grain=self.tellers.grain
@@ -30,33 +31,37 @@ class Markt:
         self.power3=self.tellers.power3
         self.power4=self.tellers.power4
         self.enoughmatspp=True
-        self.buttons=[Button(200, 150, txt="EffectKaart", bgColor=(255, 255, 255), onClick =self.chosencard, w = 250, h = 50),
-                Button(200, 250, txt="Reset", bgColor=(255, 255, 255), onClick =self.reset, w = 250, h = 50),
-                Button(1300, 250, txt="Rugzak", bgColor=(255, 255, 255), onClick =self.backpack, w = 250, h = 50),
-                Button(850, 470, txt="Gebruik", bgColor=(255, 255, 255), onClick =self.Effect14Used, w = 250, h = 50),
-                Button(1300, 550, txt="Krachtpunt P1", bgColor=(255, 255, 255), onClick =self.powerup1, w = 250, h = 50),
-                Button(1300, 650, txt="Krachtpunt P2", bgColor=(255, 255, 255), onClick =self.powerup2, w = 250, h = 50),
-                Button(1300, 750, txt="Krachtpunt P3", bgColor=(255, 255, 255), onClick =self.powerup3, w = 250, h = 50),
-                Button(1300, 850, txt="Krachtpunt P4", bgColor=(255, 255, 255), onClick =self.powerup4, w = 250, h = 50),]
+        def onBackClick(self):
+            self.toMainMenu = True
+            print('here1')
+        self.buttons=[Button(200, 150, txt="EffectKaart", onClick =self.chosencard, w = 250, h = 50),
+                Button(200, 250, txt="Reset", onClick =self.reset, w = 250, h = 50),
+                Button(1300, 250, txt="Rugzak", onClick =self.backpack, w = 250, h = 50),
+                Button(850, 470, txt="Gebruik", onClick =self.Effect14Used, w = 250, h = 50),
+                Button(1300, 550, txt="Krachtpunt P1", onClick =self.powerup1, w = 250, h = 50),
+                Button(1300, 650, txt="Krachtpunt P2", onClick =self.powerup2, w = 250, h = 50),
+                Button(1300, 750, txt="Krachtpunt P3", onClick =self.powerup3, w = 250, h = 50),
+                Button(1300, 850, txt="Krachtpunt P4", onClick =self.powerup4, w = 250, h = 50),
+                Button(1300 ,950,txt = 'Terug', onClick = onBackClick, w = 250, h=50)]
     
     
-        self.resourcesbuttons=[Button(200,600, txt="Hout", bgColor=(255, 255, 255), onClick =self.Exchangewood, w = 250, h = 50),
-                        Button(200,700, txt="Steen", bgColor=(255, 255, 255), onClick =self.Exchangebrick, w = 250, h = 50),
-                        Button(200,800, txt="Ijzer", bgColor=(255, 255, 255), onClick =self.Exchangemetal, w = 250, h = 50),
-                        Button(200,900, txt="Graan", bgColor=(255, 255, 255), onClick =self.Exchangegrain, w = 250, h = 50),]
+        self.resourcesbuttons=[Button(200,600, txt="Hout", onClick =self.Exchangewood, w = 250, h = 50),
+                        Button(200,700, txt="Steen", onClick =self.Exchangebrick, w = 250, h = 50),
+                        Button(200,800, txt="Ijzer", onClick =self.Exchangemetal, w = 250, h = 50),
+                        Button(200,900, txt="Graan", onClick =self.Exchangegrain, w = 250, h = 50),]
     
     
-        self.matsbuttons=[Button(550,600, txt="Hout", bgColor=(255, 255, 255), onClick =self.pluswood, w = 250, h = 50),
-                    Button(550,700, txt="Steen", bgColor=(255, 255, 255), onClick =self.plusstone, w = 250, h = 50),
-                    Button(550,800, txt="Ijzer", bgColor=(255, 255, 255), onClick =self.plusmetal, w = 250, h = 50),
-                    Button(550,900, txt="Graan", bgColor=(255, 255, 255), onClick =self.plusgrain, w = 250, h = 50),]
+        self.matsbuttons=[Button(550,600, txt="Hout", onClick =self.pluswood, w = 250, h = 50),
+                    Button(550,700, txt="Steen", onClick =self.plusstone, w = 250, h = 50),
+                    Button(550,800, txt="Ijzer", onClick =self.plusmetal, w = 250, h = 50),
+                    Button(550,900, txt="Graan", onClick =self.plusgrain, w = 250, h = 50),]
     
     
     
-        self.errorbuttons=[Button(1650,350, txt="OK", bgColor=(255, 255, 255), onClick =self.NoBrickError, w = 100, h = 50),
-                    Button(500,300, txt="OK", bgColor=(255, 255, 255), onClick =self.NoGrainError, w = 100, h = 50),
-                    Button(850,750, txt="OK", bgColor=(255, 255, 255), onClick =self.NoMatserror, w = 100, h = 50),
-                    Button(1600,730, txt="OK", bgColor=(255, 255, 255), onClick =self.NoMatsppError, w = 100, h = 50),]
+        self.errorbuttons=[Button(1650,350, txt="OK", onClick =self.NoBrickError, w = 100, h = 50),
+                    Button(500,300, txt="OK", onClick =self.NoGrainError, w = 100, h = 50),
+                    Button(850,750, txt="OK", onClick =self.NoMatserror, w = 100, h = 50),
+                    Button(1600,730, txt="OK", onClick =self.NoMatsppError, w = 100, h = 50),]
     
     def powerup1(self,self1):
 
@@ -266,6 +271,8 @@ class Markt:
     def draw(self):
 
         image(self.backgr,0,0)
+        self.buttons[8].draw()
+        self.buttons[8].update()
         for self.x in range(3):
             self.buttons[self.x].draw()
             self.buttons[self.x].update()

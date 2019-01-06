@@ -10,7 +10,7 @@ class tellers:
         def onBackButtonClick(button):
             self.goToMainMenu = True
         self.goToMainMenu = False
-        self.backButton = Button(1000, 300, txt="Back", onClick=onBackButtonClick)
+        self.backButton = Button(1000, 300, txt="Terug", onClick=onBackButtonClick)
         self.effect10=False
         self.wood=0
         self.brick=0
@@ -41,36 +41,36 @@ class tellers:
         self.p4_display='Stamina '+player4
         self.w=1920
         self.h=1080
-        self.buttons2=[Button(330, 100, txt="+", bgColor=(255, 255, 255), onClick =self.addition_wood, w = 100, h = 50), 
-            Button(100, 100, txt="-", bgColor=(255, 255, 255), onClick =self.sub_wood, w = 100, h = 50), 
-            Button(330, 250, txt="+", bgColor=(255, 255, 255), onClick =self.addition_brick, w = 100, h = 50),
-            Button(100, 250, txt="-", bgColor=(255, 255, 255), onClick =self.sub_brick, w = 100, h = 50),
-            Button(330, 400, txt="+", bgColor=(255, 255, 255), onClick =self.addition_metal, w = 100, h = 50),
-            Button(100, 400, txt="-", bgColor=(255, 255, 255), onClick =self.sub_metal, w = 100, h = 50),
-            Button(330, 550, txt="+", bgColor=(255, 255, 255), onClick =self.addition_grain, w = 100, h = 50),
-                Button(100, 550, txt="-", bgColor=(255, 255, 255), onClick =self.sub_grain, w = 100, h = 50),
-                Button(730, 100, txt="+", bgColor=(255, 255, 255), onClick =self.addition_stamina1, w = 100, h = 50),
-                Button(500, 100, txt="-", bgColor=(255, 255, 255), onClick =self.sub_stamina1, w = 100, h = 50),
-                Button(730, 250, txt="+", bgColor=(255, 255, 255), onClick =self.addition_stamina2, w = 100, h = 50), 
-                Button(500, 250, txt="-", bgColor=(255, 255, 255), onClick =self.sub_stamina2, w = 100, h = 50),
-                Button(730, 400, txt="+", bgColor=(255, 255, 255), onClick =self.addition_stamina3, w = 100, h = 50), 
-                Button(500, 400, txt="-", bgColor=(255, 255, 255), onClick =self.sub_stamina3, w = 100, h = 50),
-                Button(730, 550, txt="+", bgColor=(255, 255, 255), onClick =self.addition_stamina4, w = 100, h = 50), 
-                Button(500, 550, txt="-", bgColor=(255, 255, 255), onClick =self.sub_stamina4, w = 100, h = 50),
-                #Button(730, 670, txt="+", bgColor=(255, 255, 255), onClick =self.addition_winning, w = 100, h = 50),
-                Button(330, 670, txt="+", bgColor=(255, 255, 255), onClick =self.addition_capacity, w = 100, h = 50),
-                Button(100, 670, txt="-", bgColor=(255, 255, 255), onClick =self.sub_capacity, w = 100, h = 50),
-                #Button(500, 670, txt="-", bgColor=(255, 255, 255), onClick =self.sub_winning, w = 100, h = 50),
-                Button(1000, 100, txt="Dag voorbij", bgColor=(255, 255, 255), onClick =self.playersdone, w = 300, h = 50),
-                Button(1000, 200, txt="reset", bgColor=(255, 255, 255), onClick =self.another_card, w = 300, h = 50),
-                Button(330, 790, txt="+", bgColor=(255, 255, 255), onClick =self.powerup1, w = 100, h = 50),
-                Button(100, 790, txt="-", bgColor=(255, 255, 255), onClick =self.powerdown1, w = 100, h = 50),
-                Button(330, 890, txt="+", bgColor=(255, 255, 255), onClick =self.powerup3, w = 100, h = 50),
-                Button(100, 890, txt="-", bgColor=(255, 255, 255), onClick =self.powerdown3, w = 100, h = 50),
-                Button(730, 790, txt="+", bgColor=(255, 255, 255), onClick =self.powerup2, w = 100, h = 50), 
-                Button(500, 790, txt="-", bgColor=(255, 255, 255), onClick =self.powerdown2, w = 100, h = 50),
-                Button(730, 890, txt="+", bgColor=(255, 255, 255), onClick =self.powerup4, w = 100, h = 50),
-                Button(500, 890, txt="-", bgColor=(255, 255, 255), onClick =self.powerdown4, w = 100, h = 50)]
+        self.buttons2=[Button(330, 100, txt="+", onClick =self.addition_wood, w = 100, h = 50), 
+            Button(100, 100, txt="-", onClick =self.sub_wood, w = 100, h = 50), 
+            Button(330, 250, txt="+", onClick =self.addition_brick, w = 100, h = 50),
+            Button(100, 250, txt="-", onClick =self.sub_brick, w = 100, h = 50),
+            Button(330, 400, txt="+", onClick =self.addition_metal, w = 100, h = 50),
+            Button(100, 400, txt="-", onClick =self.sub_metal, w = 100, h = 50),
+            Button(330, 550, txt="+", onClick =self.addition_grain, w = 100, h = 50),
+                Button(100, 550, txt="-", onClick =self.sub_grain, w = 100, h = 50),
+                Button(730, 100, txt="+", onClick =self.addition_stamina1, w = 100, h = 50),
+                Button(500, 100, txt="-", onClick =self.sub_stamina1, w = 100, h = 50),
+                Button(730, 250, txt="+", onClick =self.addition_stamina2, w = 100, h = 50), 
+                Button(500, 250, txt="-", onClick =self.sub_stamina2, w = 100, h = 50),
+                Button(730, 400, txt="+", onClick =self.addition_stamina3, w = 100, h = 50), 
+                Button(500, 400, txt="-", onClick =self.sub_stamina3, w = 100, h = 50),
+                Button(730, 550, txt="+", onClick =self.addition_stamina4, w = 100, h = 50), 
+                Button(500, 550, txt="-", onClick =self.sub_stamina4, w = 100, h = 50),
+                #Button(730, 670, txt="+", onClick =self.addition_winning, w = 100, h = 50),
+                Button(330, 670, txt="+", onClick =self.addition_capacity, w = 100, h = 50),
+                Button(100, 670, txt="-", onClick =self.sub_capacity, w = 100, h = 50),
+                #Button(500, 670, txt="-", onClick =self.sub_winning, w = 100, h = 50),
+                Button(1000, 100, txt="Dag voorbij", onClick =self.playersdone, w = 300, h = 50),
+                Button(1000, 200, txt="reset", onClick =self.another_card, w = 300, h = 50),
+                Button(330, 790, txt="+", onClick =self.powerup1, w = 100, h = 50),
+                Button(100, 790, txt="-", onClick =self.powerdown1, w = 100, h = 50),
+                Button(330, 890, txt="+", onClick =self.powerup3, w = 100, h = 50),
+                Button(100, 890, txt="-", onClick =self.powerdown3, w = 100, h = 50),
+                Button(730, 790, txt="+", onClick =self.powerup2, w = 100, h = 50), 
+                Button(500, 790, txt="-", onClick =self.powerdown2, w = 100, h = 50),
+                Button(730, 890, txt="+", onClick =self.powerup4, w = 100, h = 50),
+                Button(500, 890, txt="-", onClick =self.powerdown4, w = 100, h = 50)]
     def powerup1(self,self1):
         self.power1+=1
     def powerdown1(self,self1):
