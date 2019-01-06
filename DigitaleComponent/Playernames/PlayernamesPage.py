@@ -17,10 +17,10 @@ class Playernames():
         #page items
         self.backButton = Button(960, 700, onClick = onBackClick, txt = 'Terug')
         self.titleText = Text("Spelernamen", 960, 150, 960, 150, txtColor=(255,255,255), txtSize = 100)
-        self.p1name = TextField(960,300, placeHolder = 'Speler 1')
-        self.p2name = TextField(960,380, placeHolder = 'Speler 2')
-        self.p3name = TextField(960,460, placeHolder = 'Speler 3')
-        self.p4name = TextField(960,540, placeHolder = 'Speler 4')
+        self.p1name = TextField(960, 300, placeHolder = 'Speler 1')
+        self.p2name = TextField(960, 380, placeHolder = 'Speler 2')
+        self.p3name = TextField(960, 460, placeHolder = 'Speler 3')
+        self.p4name = TextField(960, 540, placeHolder = 'Speler 4')
         #to add items
         self.pages[0].add(self.backButton)
         self.pages[0].add(self.titleText)
