@@ -16,7 +16,8 @@ class BattleSystem:
     PHASE_CHOOSE_PLAYER = 0
     PHASE_CHOOSE_ENEMY = 1
     PHASE_RESULT = 2
-    PHASE_END = 3
+    PHASE_GET_POWERPOINTS = 3
+    PHASE_END = 4
 
     EFFECT_ADD_2PP = 1
     EFFECT_MUL_2PP = 2
@@ -98,10 +99,12 @@ class BattleSystem:
         
         resultText = ""
         self.backButton.enabled = True
+        self.getPPButton.enabled = False
         if(playerTotal > enemyTotal): #GEWONNEN
             resultText = ["Je hebt gewonnen!", "Jullie hebben gewonnen!"][len(self.selectedPlayers) > 1]
             self.tellers.win_points += 1
             self.resetButton.enabled = False
+            self.getPPButton.enabled = True
         elif(playerTotal < enemyTotal): #VERLOREN
             resultText = ["Je hebt verloren!", "Jullie hebben verloren!"][len(self.selectedPlayers) > 1]
             self.resetButton.enabled = True
@@ -158,9 +161,29 @@ class BattleSystem:
         self.resultValuesPage.add(Text(self.tiers[self.enemy] + " (" + str(enemyPP) + ")", 960 + 400 + 100, 250, 400, 64, txtSize=24, txtColor = (255,255,255)))
             
 
+    #throws dices for the players to get powerpoints      
+    def throwForPowerpoints(self):
+        playerLabelTemplate = Text("PLAYER NAME", 200, 200, 400, 100, txtSize=50)
+        ppLabelTemplate = Text("+1k", 200, 500, 600, 100, txtSize=50)
+
+        i = 0
+        for playerIndex in self.selectedPlayers:
+            dice = self.randomizer()
+            x = 200 + 400 * i
+            self.pages[self.PHASE_GET_POWERPOINTS].add(playerLabelTemplate.copy(x = x, txt=self.playerNames[playerIndex]))
+            img = self.files.getImage("dice"+str(dice))
+            self.pages[self.PHASE_GET_POWERPOINTS].add(Image(img, x, 400, True))
+            if(dice >= 5): 
+                pp = self.getPlayerPowerpoints(playerIndex) + 1 #Give an extra powerpoint to the player
+                self.setPlayerPowerpoints(playerIndex, pp)
+                self.pages[self.PHASE_GET_POWERPOINTS].add(ppLabelTemplate.copy(x = x))
+            i += 1
+        
+        #pages[self.PHASE_GET_POWERPOINTS]
+
     #BattleSystem constructor
     def __init__(self, playerNames, tellers, files):
-        self.pages = [Page(), Page(), Page(), Page()]
+        self.pages = [Page() for i in range(self.PHASE_END+1)]
         self.resultValuesPage = Page()
         self.pages[self.PHASE_RESULT].add(self.resultValuesPage)
         self.playerNames = playerNames
@@ -172,6 +195,7 @@ class BattleSystem:
 
         self.effecten = [set(), set(), set(), set()] #Effecten van verkregen effectkaarten van elk speler
         self.availableEffects = [[self.EFFECT_ADD_2PP, "+2k"], [self.EFFECT_MUL_2PP, "x2k"], [self.EFFECT_OUT_2DAYS, ""], [self.EFFECT_EXTRA_TRY, ""]]
+
         #----BUTTON EVENTS-----
         def onPlayerClick(button):
             self.player = button.playerIndex
@@ -222,22 +246,26 @@ class BattleSystem:
 
         def onResetClick(button):
             self.fight()
+
+        #If the user clicks on the button of this event, a page will be displayed where he/she can can throw a dice to get a powerpoint.
+        def onGetPowerpointsClick(button): 
+            self.phase = self.PHASE_GET_POWERPOINTS
+            self.throwForPowerpoints() #Throw dices to get powerpoints and display the result
         #---------------------
-        
-        
+
         self.phase = self.PHASE_CHOOSE_PLAYER
         headerTemplate = Text("TEXT", 960, 160, 1200, 140, txtSize=70, txtColor = (255,255,255))
         self.headers = [ #Create labels to display a header on each page
             headerTemplate.copy(txt="Je bent/Jullie zijn..."),
             headerTemplate.copy(txt="Je vecht tegen..."),
-            headerTemplate.copy(txt="RESULTAAT")
+            headerTemplate.copy(txt="RESULTAAT"),
+            headerTemplate.copy(txt="Krijg krachtpunten")
         ]
-        
+
         #Add the headers to the pages to update and display them
-        self.pages[self.PHASE_CHOOSE_PLAYER].add(self.headers[0])
-        self.pages[self.PHASE_CHOOSE_ENEMY].add(self.headers[1])
-        self.pages[self.PHASE_RESULT].add(self.headers[2])
-        
+        for i in range(len(self.headers)):
+            self.pages[i].add(self.headers[i])
+
         self.buttonTemplate = Button(0,0, w=360, h=50, txtSize = 40, radius = 3)
         unitButtonTemplate = self.buttonTemplate.copy(y=700)
         effectButtonTemplate = Button(0,unitButtonTemplate.y + 70, w=54, h=54, txtOffsetY=14, radius=50)
@@ -253,7 +281,7 @@ class BattleSystem:
             self.pages[self.PHASE_CHOOSE_PLAYER].add(button)
 
             #Draw hero image
-            heroImage = Image(files.getImage(heroImageFileNames[i]), button.x, button.y - 270, True)
+            heroImage = Image(self.files.getImage(heroImageFileNames[i]), button.x, button.y - 270, True)
             self.pages[self.PHASE_CHOOSE_PLAYER].add(heroImage)
 
             for j in range(len(self.availableEffects)): #for each effect
@@ -285,14 +313,18 @@ class BattleSystem:
 
         #Reset button: fight again, Backbutton: resets the battlesystem (for now)
         self.resetButton = self.buttonTemplate.copy(x=960-300, y=850, txt = "Vecht opnieuw!", onClick=onResetClick)
-        self.backButton = self.buttonTemplate.copy(x=960+300, y=850, txt = "Terug", onClick=onBackClick)
-        
+        self.backButton = self.buttonTemplate.copy(x=960+300, y=850, txt = "Hoofdmenu", onClick=onBackClick)
+        self.getPPButton = self.buttonTemplate.copy(x=960, y=910, w=600, txt = "Verkrijg krachtpunten", onClick=onGetPowerpointsClick)
+
         #Add those buttons to the result page
         self.pages[self.PHASE_RESULT].add(self.resetButton)
         self.pages[self.PHASE_RESULT].add(self.backButton)
         
         self.pages[self.PHASE_CHOOSE_PLAYER].add(self.backButton.copy(onClick = onBackClick))
         self.pages[self.PHASE_CHOOSE_ENEMY].add(self.backButton.copy(onClick = onBackToPlayersClick))
+
+        self.pages[self.PHASE_RESULT].add(self.getPPButton)
+        self.pages[self.PHASE_GET_POWERPOINTS].add(self.backButton.copy(onClick = onBackClick, x=960, y=910, w=600))
     #Code van hakan
     def randomizer(self):
         x=random.randint(1,6)
