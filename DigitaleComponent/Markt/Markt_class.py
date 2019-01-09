@@ -5,11 +5,11 @@ from tellers.tellers_class import tellers
 from Utilities.Button import Button
 import random
 class Markt:
-    def __init__(self):
-
+    def __init__(self,Namen):
+        self.Namen=Namen
         self.movetoMainMenu = False
         self.backButton= Button(1300 , 950,txt = 'Terug', onClick = self.onBackClick, w = 250, h=50)
-        self.tellers=tellers()
+        self.tellers=tellers(self.Namen)
         self.showcard=False
         self.grain=self.tellers.grain
         self.metal=self.tellers.metal
@@ -47,13 +47,13 @@ class Markt:
     
         self.resourcesbuttons=[Button(200,600, txt="Hout", onClick =self.Exchangewood, w = 250, h = 50),
                         Button(200,700, txt="Steen", onClick =self.Exchangebrick, w = 250, h = 50),
-                        Button(200,800, txt="Ijzer", onClick =self.Exchangemetal, w = 250, h = 50),
+                        Button(200,800, txt="IJzer", onClick =self.Exchangemetal, w = 250, h = 50),
                         Button(200,900, txt="Graan", onClick =self.Exchangegrain, w = 250, h = 50),]
     
     
         self.matsbuttons=[Button(550,600, txt="Hout", onClick =self.pluswood, w = 250, h = 50),
                     Button(550,700, txt="Steen", onClick =self.plusstone, w = 250, h = 50),
-                    Button(550,800, txt="Ijzer", onClick =self.plusmetal, w = 250, h = 50),
+                    Button(550,800, txt="IJzer", onClick =self.plusmetal, w = 250, h = 50),
                     Button(550,900, txt="Graan", onClick =self.plusgrain, w = 250, h = 50),]
     
     
@@ -188,7 +188,7 @@ class Markt:
             self.clicked=True
             self.chosenmat=1
         else:
-            self.resourcename='steen'
+            self.resourcename='Steen'
             self.enoughmats=False
             self.clicked=True
             self.chosenmat=5
@@ -201,7 +201,7 @@ class Markt:
             self.clicked=True
             self.chosenmat=2
         else:
-            self.resourcename='Ijzer'
+            self.resourcename='IJzer'
             self.enoughmats=False
             self.clicked=True
             self.chosenmat=5
