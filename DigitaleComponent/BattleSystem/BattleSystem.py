@@ -321,7 +321,7 @@ class BattleSystem:
         self.pages[self.PHASE_RESULT].add(self.backButton)
         
         self.pages[self.PHASE_CHOOSE_PLAYER].add(self.backButton.copy(onClick = onBackClick))
-        self.pages[self.PHASE_CHOOSE_ENEMY].add(self.backButton.copy(onClick = onBackToPlayersClick))
+        self.pages[self.PHASE_CHOOSE_ENEMY].add(self.backButton.copy(onClick = onBackToPlayersClick, txt="Terug"))
 
         self.pages[self.PHASE_RESULT].add(self.getPPButton)
         self.pages[self.PHASE_GET_POWERPOINTS].add(self.backButton.copy(onClick = onBackClick, x=960, y=910, w=600))

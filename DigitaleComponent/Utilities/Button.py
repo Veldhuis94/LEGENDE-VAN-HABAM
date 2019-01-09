@@ -33,12 +33,15 @@ class Button:
     
     enabled = True #Onclick event will be fired and color will change based on input (hover, click)
 
+    static_clicked = False
+
     @staticmethod
     def setDefaultFont(font):
         Button.static_defaultFont = font
 
     #Constructor of the Button, use this to initialise the button. Example usage: myButton = Button(100, 100, w = 100, h = 50, txt='click here')
     def __init__(self, x, y, **args):
+
         #----------------------
         def setToDefaultValueIfNone(value, defaultValue):
             if(value == None):
@@ -130,6 +133,14 @@ class Button:
 
     #Run this on every frame.
     def update(self):
+        #Prevent the user can click on multiple buttons simultaniously
+        if(Button.static_clicked==True):
+            if(mousePressed == False):
+                Button.static_clicked=False
+            else:
+                return #Don't run the rest of the function
+            
+
         mouseIsOnButton = self.positionIsOnButton(mouseX, mouseY)
         
         if(self.enabled and mouseIsOnButton):
@@ -137,6 +148,7 @@ class Button:
             self.txtColorCurrent = self.txtColorHover
             
             if(mousePressed and self.clicked == False): #The user must release the mouse button before he/she can press on it again
+                Button.static_clicked=True
                 self.clicked = True
                 self.bgColorCurrent = self.bgColorPressed
                 self.txtColorCurrent = self.txtColorPressed
