@@ -3,10 +3,12 @@ import sys
 sys.path.append('..') #Go one folder up to access the Utilities folder
 from Utilities.Button import Button
 
-import random
-class tellers:
 
-    def __init__(self):
+import random
+
+class tellers:
+    def __init__(self,Names):
+        self.Names=Names
         def onBackButtonClick(button):
             self.goToMainMenu = True
         self.goToMainMenu = False
@@ -31,14 +33,6 @@ class tellers:
         self.newdeck=False
         self.action11chosen=False
         self.actionbagcap=False
-        player1='Mahmoud'
-        self.p1_display='Stamina '+player1
-        player2='Hakan'
-        self.p2_display='Stamina '+player2
-        player3='Audi'
-        self.p3_display='Stamina '+player3
-        player4='Bastiaan'
-        self.p4_display='Stamina '+player4
         self.w=1920
         self.h=1080
         self.buttons2=[Button(330, 100, txt="+", onClick =self.addition_wood, w = 100, h = 50), 
@@ -71,6 +65,7 @@ class tellers:
                 Button(500, 790, txt="-", onClick =self.powerdown2, w = 100, h = 50),
                 Button(730, 890, txt="+", onClick =self.powerup4, w = 100, h = 50),
                 Button(500, 890, txt="-", onClick =self.powerdown4, w = 100, h = 50)]
+
     def powerup1(self,self1):
         self.power1+=1
     def powerdown1(self,self1):
@@ -228,8 +223,16 @@ class tellers:
         self.card=random.choice(self.action_cards)
         self.action_cards.remove(self.card)
         
-        
+          
     def draw(self):
+        self.player1=self.Names[0]
+        self.p1_display='Stamina '+str(self.player1)
+        self.player2=self.Names[1]
+        self.p2_display='Stamina '+str(self.player2)
+        self.player3=self.Names[2]
+        self.p3_display='Stamina '+str(self.player3)
+        self.player4=self.Names[3]
+        self.p4_display='Stamina '+str(self.player4)
         if self.action_cards==[]:
             self.newdeck=True
             for self.i in range(1,21):
@@ -253,13 +256,13 @@ class tellers:
         text(str(self.metal),220,380)
         text('GRAAN',220,480)
         text(str(self.grain),220,530)
-        text(self.p1_display,620,20)
+        text(str(self.p1_display),620,20)
         text(str(self.stamina1),620,80)
-        text(self.p2_display,620,170)
+        text(str(self.p2_display),620,170)
         text(str(self.stamina2),620,230)
-        text(self.p3_display,620,320)
+        text(str(self.p3_display),620,320)
         text(str(self.stamina3),620,380)
-        text(self.p4_display,620,480)
+        text(str(self.p4_display),620,480)
         text(str(self.stamina4),620,530)
         text('Overwinningspunten',620,600)
         text(str(self.win_points),620,650)
