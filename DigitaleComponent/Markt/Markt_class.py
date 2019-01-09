@@ -6,7 +6,9 @@ from Utilities.Button import Button
 import random
 class Markt:
     def __init__(self):
-        self.toMainMenu = True
+
+        self.movetoMainMenu = False
+        self.backButton= Button(1300 , 950,txt = 'Terug', onClick = self.onBackClick, w = 250, h=50)
         self.tellers=tellers()
         self.showcard=False
         self.grain=self.tellers.grain
@@ -31,9 +33,7 @@ class Markt:
         self.power3=self.tellers.power3
         self.power4=self.tellers.power4
         self.enoughmatspp=True
-        def onBackClick(self):
-            self.toMainMenu = True
-            print('here1')
+
         self.buttons=[Button(200, 150, txt="EffectKaart", onClick =self.chosencard, w = 250, h = 50),
                 Button(200, 250, txt="Reset", onClick =self.reset, w = 250, h = 50),
                 Button(1300, 250, txt="Rugzak", onClick =self.backpack, w = 250, h = 50),
@@ -42,7 +42,7 @@ class Markt:
                 Button(1300, 650, txt="Krachtpunt P2", onClick =self.powerup2, w = 250, h = 50),
                 Button(1300, 750, txt="Krachtpunt P3", onClick =self.powerup3, w = 250, h = 50),
                 Button(1300, 850, txt="Krachtpunt P4", onClick =self.powerup4, w = 250, h = 50),
-                Button(1300 ,950,txt = 'Terug', onClick = onBackClick, w = 250, h=50)]
+                ]
     
     
         self.resourcesbuttons=[Button(200,600, txt="Hout", onClick =self.Exchangewood, w = 250, h = 50),
@@ -62,7 +62,8 @@ class Markt:
                     Button(500,300, txt="OK", onClick =self.NoGrainError, w = 100, h = 50),
                     Button(850,750, txt="OK", onClick =self.NoMatserror, w = 100, h = 50),
                     Button(1600,730, txt="OK", onClick =self.NoMatsppError, w = 100, h = 50),]
-    
+    def onBackClick(self,self1):
+        self.movetoMainMenu = True
     def powerup1(self,self1):
 
         if self.wood>=self.price and self.stone>=self.price and self.metal>=self.price and self.grain>=self.price:
@@ -269,10 +270,9 @@ class Markt:
         
 
     def draw(self):
-
         image(self.backgr,0,0)
-        self.buttons[8].draw()
-        self.buttons[8].update()
+        self.backButton.update()
+        self.backButton.draw()
         for self.x in range(3):
             self.buttons[self.x].draw()
             self.buttons[self.x].update()
