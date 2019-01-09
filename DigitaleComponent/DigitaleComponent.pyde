@@ -16,31 +16,32 @@ from Spelverloop.Spelverloop import Spelverloop
 from Spelverloop.SpelverloopUI import SpelverloopUI
 from Rulebook.RulebookPage import Rulebook
 
+
 currentPhase = AppPhase.MAINMENU
-
-mainMenu = MainMenu()
-battleSystem = None #Wordt later geïnitialiseerd
-tellerSystem = tellers()
-boardRandomizer = Board()
-playernames = Playernames()
-creditsPage = Credits()
-markt = Markt()
-files = FileResources()
-spelverloop = Spelverloop(tellerSystem)
-spelverloopUI = SpelverloopUI(spelverloop)
-rulebook = Rulebook()
-
 #playernames
 p1 = 'Speler 1'
 p2 = 'Speler 2'
 p3 = 'Speler 3'
 p4 = 'Speler 4'
+Namen = [p1, p2, p3, p4]
+tellerSystem = tellers(Namen)
+mainMenu = MainMenu()
+battleSystem = None #Wordt later geïnitialiseerd
+boardRandomizer = Board()
+playernames = Playernames()
+creditsPage = Credits()
+markt = Markt(Namen)
+files = FileResources()
+spelverloop = Spelverloop(tellerSystem)
+spelverloopUI = SpelverloopUI(spelverloop)
+rulebook = Rulebook()
+
+
 board_randomizer_firstFrame = True
 
 def setup():
     global files
     size(1920, 1000)
-    
     for i in range(1, 7):
         files.loadImageFile('dice_'+str(i)+".png", "dice"+str(i))
     files.loadImageFile('BG.png', "background")
@@ -71,7 +72,8 @@ def draw():
         board_randomizer_firstFrame = True
         background(files.getImage("background"))
     
-    
+    Namen = [p1, p2, p3, p4]
+    tellerSystem.Names = Namen
     if currentPhase == AppPhase.BATTLESYSTEM:
         runBattleSystem()
     elif(currentPhase == AppPhase.INVENTORY):
@@ -109,8 +111,8 @@ def runBoardRandomizer():
 def runTellers():
     global tellerSystem
     global currentPhase
+    global Names
     tellerSystem.draw()
-    
     if(tellerSystem.goToMainMenu):
         currentPhase = AppPhase.MAINMENU
         mainMenu.phase = currentPhase
