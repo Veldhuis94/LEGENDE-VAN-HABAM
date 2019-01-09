@@ -153,11 +153,10 @@ def runMarket():
     global markt
     global currentPhase
     markt.draw()
-    if(markt.toMainMenu == True):
+    if(markt.movetoMainMenu):
         currentPhase = AppPhase.MAINMENU
         mainMenu.phase = currentPhase
-        markt.toMainMenu = False
-        print('here')
+        markt.movetoMainMenu = False
 def runPlayernames():
     global playernames
     global currentPhase
