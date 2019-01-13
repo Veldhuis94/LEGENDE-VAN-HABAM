@@ -269,13 +269,13 @@ class tellers:
         text('Opslag Capaciteit',220,600)
         text(str(self.capacity),220,650)
         text(str(self.power1),220,780)
-        text('KrachtPunten Mahmoud',215,720)
+        text('KrachtPunten '+str(self.player1),215,720)
         text(str(self.power3),220,880)
-        text('KrachtPunten Audi',215,825)
+        text('KrachtPunten '+str(self.player2),215,825)
         text(str(self.power2),620,780)
-        text('KrachtPunten Hakan',615,720)
+        text('KrachtPunten '+str(self.player3),615,720)
         text(str(self.power4),620,880)
-        text('KrachtPunten Bastiaan',615,825)
+        text('KrachtPunten '+str(self.player4),615,825)
         if self.buttons2[18].enabled==True:
             self.buttons2[19].enabled=False
         else:
