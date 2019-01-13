@@ -210,7 +210,7 @@ class tellers:
         global players_done
         global clicked
         global action11
-        self.img=loadImage("TITLESCREEN2.png")
+        self.img=loadImage("BG.png")
         self.bag=loadImage("bag.png")
         self.players_done=False
         self.clicked=0
