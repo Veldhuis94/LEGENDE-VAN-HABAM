@@ -6,6 +6,7 @@ import random
 class Board:
     def __init__(self):
         def onDrawBoardClick(button):
+            self.boardSetup()
             self.draw_board()
         self.button=Button(300, 600, txt="Nieuw Bord", bgColor=(255, 255, 255), onClick = onDrawBoardClick, w = 350, h = 60)
 
@@ -43,6 +44,7 @@ class Board:
                 image(self.piece,self.piece_x,self.piece_y)
                 self.piece_x+=75
                 self.amount_pieces+=1
+                self.board.remove(self.piece)
         while self.amount_rows<7:
             self.amount_pieces=0
             self.piece_y+=75
@@ -53,6 +55,7 @@ class Board:
     def setup(self):
         #fullScreen()
         #self.font=loadFont('BlackChancery-48.vlw')
+
         self.font=loadFont('BlackChancery.vlw')
 
         self.img=loadImage('TITLESCREEN2.png')
@@ -64,6 +67,8 @@ class Board:
         #background(self.img)
         textFont(self.font)
     def draw(self):
+        # if self.board==[]:
+        #     self.boardSetup()
         self.button.update()
         self.backButton.update()
         self.button.draw()
