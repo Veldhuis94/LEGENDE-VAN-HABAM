@@ -5,35 +5,23 @@ from tellers.tellers_class import tellers
 from Utilities.Button import Button
 import random
 class Markt:
-    def __init__(self,Namen):
-        self.Namen=Namen
+    def __init__(self,tellers):
+
         self.movetoMainMenu = False
         self.backButton= Button(1300 , 950,txt = 'Terug', onClick = self.onBackClick, w = 250, h=50)
-        self.tellers=tellers(self.Namen)
+        self.tellers=tellers
         self.showcard=False
-        self.grain=self.tellers.grain
-        self.metal=self.tellers.metal
-        self.stone=self.tellers.brick
-        self.wood=self.tellers.wood
-        self.capacity=self.tellers.capacity
         self.boughtbags=0
-        self.bagcount=self.tellers.bagcount
         self.enoughbrick=True
         self.enoughgrain=True
-        self.price=3
-        self.effect10=self.tellers.effect10
+        self.price= 3
         self.effect14=False
         self.clicked=False
         self.resourcename='nothing'
         self.enoughmats=True
         self.chosenmat=5
         self.pressed=False
-        self.power1=self.tellers.power1
-        self.power2=self.tellers.power2
-        self.power3=self.tellers.power3
-        self.power4=self.tellers.power4
         self.enoughmatspp=True
-
         self.buttons=[Button(200, 150, txt="EffectKaart", onClick =self.chosencard, w = 250, h = 50),
                 Button(200, 250, txt="Reset", onClick =self.reset, w = 250, h = 50),
                 Button(1300, 250, txt="Rugzak", onClick =self.backpack, w = 250, h = 50),
@@ -47,13 +35,13 @@ class Markt:
     
         self.resourcesbuttons=[Button(200,600, txt="Hout", onClick =self.Exchangewood, w = 250, h = 50),
                         Button(200,700, txt="Steen", onClick =self.Exchangebrick, w = 250, h = 50),
-                        Button(200,800, txt="IJzer", onClick =self.Exchangemetal, w = 250, h = 50),
+                        Button(200,800, txt="Ijzer", onClick =self.Exchangemetal, w = 250, h = 50),
                         Button(200,900, txt="Graan", onClick =self.Exchangegrain, w = 250, h = 50),]
     
     
         self.matsbuttons=[Button(550,600, txt="Hout", onClick =self.pluswood, w = 250, h = 50),
                     Button(550,700, txt="Steen", onClick =self.plusstone, w = 250, h = 50),
-                    Button(550,800, txt="IJzer", onClick =self.plusmetal, w = 250, h = 50),
+                    Button(550,800, txt="Ijzer", onClick =self.plusmetal, w = 250, h = 50),
                     Button(550,900, txt="Graan", onClick =self.plusgrain, w = 250, h = 50),]
     
     
@@ -66,46 +54,46 @@ class Markt:
         self.movetoMainMenu = True
     def powerup1(self,self1):
 
-        if self.wood>=self.price and self.stone>=self.price and self.metal>=self.price and self.grain>=self.price:
-            self.power1+=1
-            self.wood-=self.price
-            self.stone-=self.price
-            self.metal-=self.price
-            self. grain-=self.price
+        if self.tellers.wood >=self.price and self.tellers.brick >=self.price and self.tellers.metal>=self.price and self.tellers.grain>=self.price:
+            self.tellers.power1+=1
+            self.tellers.wood -=self.price
+            self.tellers.brick -=self.price
+            self.tellers.metal-=self.price
+            self.tellers.grain-=self.price
         else:
             self.enoughmatspp=False
     def powerup2(self,self1):
 
-        if self.wood>=self.price and self.stone>=self.price and self.metal>=self.price and self.grain>=self.price:
-            self.power2+=1
-            self.wood-=self.price
-            self.stone-=self.price
-            self.metal-=self.price
-            self.grain-=self.price
+        if self.tellers.wood >=self.price and self.tellers.brick >=self.price and self.tellers.metal>=self.price and self.tellers.grain>=self.price:
+            self.tellers.power2+=1
+            self.tellers.wood -=self.price
+            self.tellers.brick -=self.price
+            self.tellers.metal-=self.price
+            self.tellers.grain-=self.price
         else:
             self.enoughmatspp=False
 
 
     def powerup3(self,self1):
 
-        if self.wood>=self.price and self.stone>=self.price and self.metal>=self.price and self.grain>=self.price:
-            self.power3+=1
-            self.wood-=self.price
-            self.stone-=self.price
-            self.metal-=self.price
-            self.grain-=self.price
+        if self.tellers.wood >=self.price and self.tellers.brick >=self.price and self.tellers.metal>=self.price and self.tellers.grain>=self.price:
+            self.tellers.power3+=1
+            self.tellers.wood -=self.price
+            self.tellers.brick -=self.price
+            self.tellers.metal-=self.price
+            self.tellers.grain-=self.price
         else:
             self.enoughmatspp=False
 
 
     def powerup4(self,self1):
 
-        if self.wood>=self.price and self.stone>=self.price and self.metal>=self.price and self.grain>=self.price:
-            self.power4+=1
-            self.wood-=self.price
-            self.stone-=self.price
-            self.metal-=self.price
-            self.grain-=self.price
+        if self.tellers.wood >=self.price and self.tellers.brick >=self.price and self.tellers.metal>=self.price and self.tellers.grain>=self.price:
+            self.tellers.power4+=1
+            self.tellers.wood -=self.price
+            self.tellers.brick -=self.price
+            self.tellers.metal-=self.price
+            self.tellers.grain-=self.price
         else:
             self.enoughmatspp=False
     def chosencard(self,self1):
@@ -113,13 +101,13 @@ class Markt:
         self.card=random.choice(self.effectcards)
 
         if self.card==self.effectcards[9]:
-            self.effect10=True
+            self.tellers.effect10=True
         if self.card==self.effectcards[13] and self.effect14==True:
             self.card=random.choice(self.effectcards2)
-        if self.grain>=self.price:
+        if self.tellers.grain>=self.price:
             self.showcard=True
             self.buttons[0].enabled=False
-            self.grain-=self.price
+            self.tellers.grain-=self.price
         else:
             self.enoughgrain=False
             self.price=3
@@ -145,10 +133,11 @@ class Markt:
 
     def backpack(self,self1):
 
-        if self.stone>=self.price:
-            self.bagcount=True
+        if self.tellers.brick >=self.price:
+            self.tellers.bagcount=True
             self.buttons[2].enabled=False
-            self.stone-=self.price
+            self.tellers.brick -=self.price
+            self.tellers.capacity+=3
         else:
             self.enoughbrick=False
 
@@ -170,8 +159,8 @@ class Markt:
 
     def Exchangewood(self,self1):
 
-        if self.wood>=self.price:
-            self.wood-=self.price
+        if self.tellers.wood >=self.price:
+            self.tellers.wood -=self.price
             self.clicked=True
             self.chosenmat=0
         else:
@@ -183,12 +172,12 @@ class Markt:
 
     def Exchangebrick(self,self1):
 
-        if self.stone>=self.price:
-            self.stone-=self.price
+        if self.tellers.brick >=self.price:
+            self.tellers.brick -=self.price
             self.clicked=True
             self.chosenmat=1
         else:
-            self.resourcename='Steen'
+            self.resourcename='steen'
             self.enoughmats=False
             self.clicked=True
             self.chosenmat=5
@@ -196,12 +185,12 @@ class Markt:
 
     def Exchangemetal(self,self1):
 
-        if self.metal>=self.price:
-            self.metal-=self.price
+        if self.tellers.metal>=self.price:
+            self.tellers.metal-=self.price
             self.clicked=True
             self.chosenmat=2
         else:
-            self.resourcename='IJzer'
+            self.resourcename='Ijzer'
             self.enoughmats=False
             self.clicked=True
             self.chosenmat=5
@@ -209,8 +198,8 @@ class Markt:
 
     def Exchangegrain(self,self1):
 
-        if self.grain>=self.price:
-            self.grain-=self.price
+        if self.tellers.grain>=self.price:
+            self.tellers.grain-=self.price
             self.clicked=True
             self.chosenmat=3
             
@@ -221,26 +210,26 @@ class Markt:
             self.chosenmat=5
     def pluswood(self,self1):
 
-        if (self.wood+self.metal+self.stone+self.grain)<(self.capacity):
-            self.wood+=1
+        if (self.tellers.wood +self.tellers.metal+self.tellers.brick +self.tellers.grain)<(self.tellers.capacity):
+            self.tellers.wood +=1
             self.clicked=False
 
     def plusstone(self,self1):
 
-        if (self.wood+self.metal+self.stone+self.grain)<(self.capacity):
-            self.stone+=1
+        if (self.tellers.wood +self.tellers.metal+self.tellers.brick +self.tellers.grain)<(self.tellers.capacity):
+            self.tellers.brick +=1
             self.clicked=False
     
     def plusmetal(self,self1):
 
-        if (self.wood+self.metal+self.stone+self.grain)<(self.capacity):
-            self.metal+=1
+        if (self.tellers.wood +self.tellers.metal+self.tellers.brick +self.tellers.grain)<(self.tellers.capacity):
+            self.tellers.metal+=1
             self.clicked=False
 
     def plusgrain(self,self1):
 
-        if (self.wood+self.metal+self.stone+self.grain)<(self.capacity):
-            self.grain+=1
+        if (self.tellers.wood +self.tellers.metal+self.tellers.brick +self.tellers.grain)<(self.tellers.capacity):
+            self.tellers.grain+=1
             self.clicked=False
 
     def NoMatserror(self,self1):
@@ -253,11 +242,9 @@ class Markt:
 
 
     def setup(self):
-
-        # size(1920,1000)
         self.effectcards=[]
         self.effectcards2=[]
-        self.backgr=loadImage('TITLESCREEN2.png')
+        self.backgr=loadImage('BG.png')
         for self.i in range(1,21):
             self.filename='effectkaart'+str(self.i)+'.png'
             self.effectcards.append(loadImage(self.filename))
@@ -266,7 +253,7 @@ class Markt:
             if self.i!=14:
                 self.effectcards2.append(loadImage(self.filename))
 
-    
+
         
 
     def draw(self):
